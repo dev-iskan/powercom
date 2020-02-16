@@ -7,3 +7,11 @@ Route::namespace('Auth')
         Route::post('logout', 'AuthController@logout')->middleware('auth:airlock');
         Route::get('me', 'AuthController@me')->middleware('auth:airlock');
     });
+
+
+Route::namespace('Products')
+    ->group(function () {
+        Route::apiResource('categories', 'CategoryController');
+        Route::apiResource('brands', 'BrandController');
+        Route::apiResource('products', 'ProductController');
+    });
