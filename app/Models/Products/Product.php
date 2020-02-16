@@ -20,6 +20,7 @@ class Product extends Model implements Sortable
         'short_description',
         'description',
         'quantity',
+        'price',
         'active',
         'order'
     ];

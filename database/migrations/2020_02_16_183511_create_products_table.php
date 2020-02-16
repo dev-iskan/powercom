@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->text('short_description')->nullable();
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('price');
             $table->bigInteger('quantity')->default(0);
             $table->integer('order')->nullable();
             $table->boolean('active')->default(false);

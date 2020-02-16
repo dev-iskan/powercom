@@ -10,6 +10,7 @@ Route::namespace('Auth')
 
 
 Route::namespace('Products')
+    ->middleware('auth:airlock')
     ->group(function () {
         Route::apiResource('categories', 'CategoryController');
         Route::apiResource('brands', 'BrandController');
