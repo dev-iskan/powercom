@@ -14,14 +14,14 @@ class BrandController extends Controller
         $brandsQuery = Brand::latest();
 
         if ($q = $request->query('q')) {
-            $brandsQuery->where('name', 'like', '%' . $q . '%');
+            $brandsQuery->where('name', 'ilike', '%' . $q . '%');
         }
 
         if ($request->query('paginate') == true) {
             return $brandsQuery->paginate($request->offset ?? 10);
         }
 
-        return $brandsQuery->limit($request->limit ?? null)->get();
+        return $brandsQuery->limit($request->limit)->get();
     }
 
     public function store(StoreBrandRequest $request)
