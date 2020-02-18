@@ -8,6 +8,12 @@ Route::namespace('Auth')
         Route::get('me', 'AuthController@me')->middleware('auth:airlock');
     });
 
+Route::namespace('Users')
+    ->middleware('auth:airlock')
+    ->group(function () {
+        Route::apiResource('users', 'UserController');
+    });
+
 Route::namespace('Products')
     ->middleware('auth:airlock')
     ->group(function () {
