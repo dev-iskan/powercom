@@ -54,4 +54,32 @@ class UserController extends Controller
 
         return response()->json(['message' => __('response.deleted')]);
     }
+
+    public function toggleAdmin($id)
+    {
+        /** @var User $user */
+        $user = User::findOrFail($id);
+
+        if ($user->isAdmin()) {
+            $user->admin()->delete();
+        } else {
+            $user->admin()->create();
+        }
+
+        return $user;
+    }
+
+    public function toggleOperator($id)
+    {
+        /** @var User $user */
+        $user = User::findOrFail($id);
+
+        if ($user->isOperator()) {
+            $user->operator()->delete();
+        } else {
+            $user->operator()->create();
+        }
+
+        return $user;
+    }
 }

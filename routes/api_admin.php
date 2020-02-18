@@ -12,6 +12,8 @@ Route::namespace('Users')
     ->middleware('auth:airlock')
     ->group(function () {
         Route::apiResource('users', 'UserController');
+        Route::post('users/{user}/toggle_admin', 'UserController@toggleAdmin');
+        Route::post('users/{user}/toggle_operator', 'UserController@toggleOperator');
     });
 
 Route::namespace('Products')
