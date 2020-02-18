@@ -18,6 +18,8 @@ class Image extends Model
         'mime_type'
     ];
 
+    protected $hidden = ['key', 'uuid'];
+
     public function imageable()
     {
         return $this->morphTo();
@@ -54,7 +56,8 @@ class Image extends Model
 
     public function deleteImage()
     {
-
+        Storage::disk('local')->delete($this->path);
+        $this->delete();
     }
 
     protected static function getFolderName($type, $id)

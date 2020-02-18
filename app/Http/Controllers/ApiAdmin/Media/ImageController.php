@@ -26,9 +26,9 @@ class ImageController extends Controller
 
     public function destroy($id)
     {
+        /** @var Image $image */
         $image = Image::findOrFail($id);
-
-        $image->deleteFile();
+        $image->deleteImage();
 
         return response()->json(['message' => __('response.deleted')]);
     }
