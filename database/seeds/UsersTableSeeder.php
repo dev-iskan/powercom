@@ -16,8 +16,14 @@ class UsersTableSeeder extends Seeder
             'phone' => '998909889322',
             'email' => 'root@root.root',
             'password' => \Illuminate\Support\Facades\Hash::make('secret')
-        ]);
+        ])->admin()->create();
 
-        \App\Models\Users\Admin::create(['user_id' => 1]);
+        \App\Models\Users\User::create([
+            'name' => 'Акбар',
+            'surname' => 'Аминов',
+            'phone' => '998933938274',
+            'email' => 'detskiy98@gmail.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('secret')
+        ])->operator()->create();
     }
 }

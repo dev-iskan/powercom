@@ -52,4 +52,14 @@ class User extends Authenticatable
     {
         return $this->admin()->exists();
     }
+
+    public function operator()
+    {
+        return $this->hasOne(Operator::class);
+    }
+
+    public function isOperator()
+    {
+        return $this->operator()->exists();
+    }
 }
