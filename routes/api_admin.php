@@ -22,3 +22,13 @@ Route::namespace('Articles')
     ->group(function () {
         Route::apiResource('articles', 'ArticleController');
     });
+
+
+Route::namespace('Media')
+    ->middleware('auth:airlock')
+    ->prefix('media')
+    ->group(function () {
+        Route::get('images/{imageable_type}/{imageable_id}', 'ImageController@index');
+        Route::post('images/{imageable_type}/{imageable_id}', 'ImageController@store');
+        Route::delete('images/{id}', 'ImageController@destroy');
+    });
