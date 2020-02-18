@@ -42,19 +42,19 @@ class Category extends Model
         return $this->children()->exists();
     }
 
-    public function setParent($parent)
+    public function setParent($parent_id)
     {
-        if ($parent == $this->id) {
+        if ($parent_id == $this->id) {
             return;
         }
 
-        if (!$parent) {
-            $this->parent()->dissociate();
+        if (!$parent_id) {
+            $this->parent_id = null;
             $this->save();
             return;
         }
 
-        $this->parent()->associate($parent);
+        $this->parent_id =$parent_id;
         $this->save();
     }
 }

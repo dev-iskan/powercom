@@ -28,18 +28,22 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $category = Category::create($request->all());
+        $category->setParent($request->parent_id);
+
         return $category;
     }
 
     public function show($id)
     {
-
+        $category = Category::findOrFail($id);
+        return $category;
     }
 
     public function update(StoreCategoryRequest $request, $id)
     {
         $category = Category::findOrFail($id);
         $category->update($request->all());
+        $category->setParent($request->parent_id);
 
         return $category;
     }
