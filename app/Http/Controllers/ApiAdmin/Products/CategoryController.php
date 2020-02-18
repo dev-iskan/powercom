@@ -18,6 +18,12 @@ class CategoryController extends Controller
             $categoriesQuery->where('name', 'ilike', '%' . $q . '%');
         }
 
+        if ($request->query('type') == 'parent') {
+            $categoriesQuery->parents();
+        } elseif ($request->query('type') == 'children') {
+            $categoriesQuery->children();
+        }
+
         if ($request->query('paginate') == true) {
             return $categoriesQuery->paginate($request->offset ?? 10);
         }

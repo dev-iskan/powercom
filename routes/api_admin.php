@@ -16,3 +16,9 @@ Route::namespace('Products')
         Route::apiResource('brands', 'BrandController');
         Route::apiResource('products', 'ProductController');
     });
+
+Route::namespace('Articles')
+    ->middleware('auth:airlock')
+    ->group(function () {
+        Route::apiResource('articles', 'ArticleController');
+    });
