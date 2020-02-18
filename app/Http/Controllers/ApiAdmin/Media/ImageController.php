@@ -17,7 +17,7 @@ class ImageController extends Controller
     public function store($imageable_type, $imageable_id, Request $request)
     {
         $this->validate($request, [
-            'image' => 'required|mimes:jpg,jpeg,bmp,png,webp'
+            'image' => 'required|file|mimes:jpg,jpeg,bmp,png,webp'
         ]);
 
         $image = Image::upload($request->file('image'), $imageable_type, $imageable_id);

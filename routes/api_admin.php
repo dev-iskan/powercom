@@ -29,4 +29,8 @@ Route::namespace('Media')
         Route::get('images/{imageable_type}/{imageable_id}', 'ImageController@index');
         Route::post('images/{imageable_type}/{imageable_id}', 'ImageController@store');
         Route::delete('images/{id}', 'ImageController@destroy');
+
+        Route::get('files', 'FileController@index');
+        Route::post('files', 'FileController@store');
+        Route::delete('files/{id}', 'FileController@destroy');
     });

@@ -2,13 +2,15 @@
 
 namespace App\Models\Products;
 
+use App\Models\Media\File;
+use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
 class Product extends Model implements Sortable
 {
-    use SortableTrait;
+    use SortableTrait, HasImages;
 
     public $sortable = [
         'order_column_name' => 'order',
@@ -33,5 +35,10 @@ class Product extends Model implements Sortable
     public function categories()
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
     }
 }

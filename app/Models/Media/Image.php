@@ -18,7 +18,7 @@ class Image extends Model
         'mime_type'
     ];
 
-    protected $hidden = ['key', 'uuid'];
+    protected $hidden = ['key', 'uuid', 'path'];
 
     public function imageable()
     {
@@ -43,8 +43,8 @@ class Image extends Model
         $model = new static();
         $model->uuid = $uuid;
         $model->key = $key;
-        $model->path = $folderName.'/'.$imageName;
-        $model->url = config('app.url').'/media/images?uuid='.$uuid.'&key='.$key;
+        $model->path = $folderName . '/' . $imageName;
+        $model->url = config('app.url') . '/media/images?uuid=' . $uuid . '&key=' . $key;
         $model->imageable_type = $imageable_type;
         $model->imageable_id = $imageable_id;
         $model->size = $image->getSize();
@@ -64,9 +64,8 @@ class Image extends Model
     {
         $folderName = $type;
         $correct_id = str_pad($id, 8, '0', STR_PAD_LEFT);
-        for ($i = 0; $i<8; $i+=2)
-        {
-            $folderName .= '/'.substr($correct_id, $i, 2);
+        for ($i = 0; $i < 8; $i += 2) {
+            $folderName .= '/' . substr($correct_id, $i, 2);
         }
 
         return $folderName;
