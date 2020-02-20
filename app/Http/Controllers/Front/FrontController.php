@@ -9,6 +9,6 @@ class FrontController extends Controller
 {
     public function main()
     {
-        return view('welcome');
+        return view('main');
     }
 }
