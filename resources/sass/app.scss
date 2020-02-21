@@ -11,3 +11,9 @@ $primary: #0064C3;
         padding: .375rem 1rem;
     }
 }
+
+@media screen and (max-width: $desktop) {
+    #catigories {
+        display: none;
+    }
+}

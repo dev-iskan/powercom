@@ -27,7 +27,7 @@
     </div>
 </nav>
 <hr style="margin: 0;"/>
-<nav class="navbar level box is-paddingless is-radiusless is-marginless">
+<nav id="catigories" class="navbar level box is-paddingless is-radiusless is-marginless">
     @foreach ($categories as $category)
         <div class="level-item">
             <div class="navbar-item has-dropdown is-hoverable is-mega" style="height: 100%;">
@@ -40,7 +40,7 @@
                                 <h1 class="title is-6">{{ $category->name }}</h1>
                             </div>
                             @foreach ($category->children as $child)
-                                    <a class="navbar-item column is-one-third" href="#">{{ $child->name }}</a>
+                                <a class="navbar-item column is-one-third" href="#">{{ $child->name }}</a>
                             @endforeach
                         </div>
                     </div>

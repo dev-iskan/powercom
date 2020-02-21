@@ -7,16 +7,16 @@
 @endsection
 
 @section('body')
-{{-- <section class="hero is-light is-medium">
+<section class="hero is-info is-medium">
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
-                Hero title
+                Powercom.uz
             </h1>
             <h2 class="subtitle">
-                Hero subtitle
+                Интернет магазин
             </h2>
         </div>
     </div>
-  </section> --}}
+  </section>
 @endsection
