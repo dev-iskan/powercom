@@ -1,17 +1,5 @@
-<div class="container is-fluid has-background-light is-paddingless">
-    <div class="columns is-vcentered">
-        <div class="column has-text-right">
-            <a href="{{ url('signin') }}" class="button is-light">
-                Вход
-            </a>
-            <a href="{{ url('signup') }}" class="button is-light">
-                Регистрация
-            </a>
-        </div>
-    </div>
-</div>
-<nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
+<nav class="navbar level is-spaced" role="navigation" aria-label="main navigation" style="margin-bottom: 0;">
+    <div class="navbar-brand level-left">
         <a class="navbar-item" href="{{ url('main') }}">
             <img src="{{ URL::asset('/image/logo.svg') }}" alt="Powercom.uz">
         </a>
@@ -22,33 +10,43 @@
             <span aria-hidden="true"></span>
         </a>
     </div>
+
+    <div class="level-right has-text-right">
+        <div class="buttons">
+            <a href="{{ url('cart') }}" class="button is-white">
+                <span class="icon has-text-primary">
+                    <i class="fas fa-shopping-cart"></i>
+                </span>
+            </a>
+            <a href="{{ url('signin') }}" class="button is-white">
+                <span class="icon has-text-primary">
+                    <i class="fas fa-user-circle"></i>
+                </span>
+            </a>
+        </div>
+    </div>
 </nav>
 <hr style="margin: 0;"/>
-<nav class="navbar level is-transparent" style="margin: 0;">
-    <div class="level-item">
-        <div class="navbar-item has-dropdown is-hoverable is-mega" style="height: 100%;">
-            <a class="navbar-item has-text-black">Телефоны</a>
-            <div class="navbar-dropdown">
-                <div class="container is-fluid">
-                    <div class="columns">
-                        <div class="column">
-                            <h1 class="title is-6 is-mega-menu-title">Sub Menu Title</h1>
-                            <a class="navbar-item " href="/documentation/overview/start/">
-                                Overview
-                            </a>
-                            <a class="navbar-item " href="http://bulma.io/documentation/modifiers/syntax/">
-                                Modifiers
-                            </a>
-                            <a class="navbar-item " href="http://bulma.io/documentation/columns/basics/">
-                                Columns
-                            </a>
-                            <a class="navbar-item " href="http://bulma.io/documentation/layout/container/">
-                                Layout
-                            </a>
+<nav class="navbar level box is-paddingless is-radiusless is-marginless">
+    @foreach ($categories as $category)
+        <div class="level-item">
+            <div class="navbar-item has-dropdown is-hoverable is-mega" style="height: 100%;">
+            <a class="navbar-item has-text-black">{{ $category->name }}</a>
+                @if (count($category->children))
+                <div class="navbar-dropdown">
+                    <div class="container" style="padding: 1em;">
+                        <div class="columns is-multiline">
+                            <div class="column is-full">
+                                <h1 class="title is-6">{{ $category->name }}</h1>
+                            </div>
+                            @foreach ($category->children as $child)
+                                    <a class="navbar-item column is-one-third" href="#">{{ $child->name }}</a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
-    </div>
+    @endforeach
 </nav>
