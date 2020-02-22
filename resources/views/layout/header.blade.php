@@ -1,5 +1,5 @@
-<nav class="navbar level is-spaced" role="navigation" aria-label="main navigation" style="margin-bottom: 0;">
-    <div class="navbar-brand level-left">
+<nav class="navbar is-spaced" role="navigation" aria-label="main navigation" style="margin-bottom: 0;">
+    <div class="navbar-brand">
         <a class="navbar-item" href="{{ url('main') }}">
             <img src="{{ URL::asset('/image/logo.svg') }}" alt="Powercom.uz">
         </a>
@@ -11,7 +11,7 @@
         </a>
     </div>
 
-    <div class="level-right has-text-right">
+    {{-- <div class="level-right has-text-right">
         <div class="buttons">
             <a href="{{ url('cart') }}" class="button is-white">
                 <span class="icon has-text-primary">
@@ -24,7 +24,7 @@
                 </span>
             </a>
         </div>
-    </div>
+    </div> --}}
 </nav>
 <hr style="margin: 0;"/>
 <nav id="catigories" class="navbar level box is-paddingless is-radiusless is-marginless">
