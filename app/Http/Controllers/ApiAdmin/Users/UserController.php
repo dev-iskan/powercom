@@ -13,7 +13,37 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $usersQuery = User::with('admin','operator')->latest();
+        $usersQuery = User::latest();
+
+        $client_query = $request->query('client');
+        $admin_query = $request->query('admin');
+        $operator_query = $request->query('operator');
+
+        if ($admin_query === '1') {
+            $usersQuery->has('admin');
+        } elseif ($admin_query === '0') {
+            $usersQuery->doesntHave('admin');
+        }
+
+        if ($operator_query === '1') {
+            $usersQuery->has('operator');
+        } elseif ($operator_query === '0') {
+            $usersQuery->doesntHave('operator');
+        }
+
+        if ($client_query === '1') {
+            $usersQuery->has('client');
+        } elseif ($client_query === '0') {
+            $usersQuery->doesntHave('client');
+        }
+
+        if ($q = $request->query('q')) {
+            $usersQuery->where(function ($query) use ($q) {
+                $query->where('name', 'ilike', '%' . $q . '%')
+                    ->orWhere('phone', 'ilike', '%' . $q . '%')
+                    ->orWhere('email', 'ilike', '%' . $q . '%');
+            });
+        }
 
         if ($request->query('paginate') == true) {
             return $usersQuery->paginate($request->offset ?? 10);
@@ -24,7 +54,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $user = User::create(array_merge($request->all(),[
+        $user = User::create(array_merge($request->all(), [
             'password' => Hash::make($request->password)
         ]));
         return $user;
@@ -32,14 +62,14 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::with('admin','operator')->findOrFail($id);
+        $user = User::with('admin', 'operator', 'client')->findOrFail($id);
         return $user;
     }
 
     public function update(UpdateUserRequest $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->update(array_merge($request->all(),[
+        $user->update(array_merge($request->all(), [
             'password' => Hash::make($request->password)
         ]));
     }
@@ -47,7 +77,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         if (auth()->id() == $id) {
-            return response()->json(['message' => __('response.not_allowed')],400);
+            return response()->json(['message' => __('response.not_allowed')], 400);
         }
         $user = User::findOrFail($id);
         $user->delete();

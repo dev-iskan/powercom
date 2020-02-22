@@ -16,6 +16,12 @@ Route::namespace('Users')
         Route::post('users/{user}/toggle_operator', 'UserController@toggleOperator');
     });
 
+Route::namespace('Clients')
+    ->middleware('auth:airlock')
+    ->group(function () {
+        Route::apiResource('clients', 'ClientController')->except(['destroy']);
+    });
+
 Route::namespace('Products')
     ->middleware('auth:airlock')
     ->group(function () {
