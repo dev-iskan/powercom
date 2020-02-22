@@ -3,6 +3,7 @@
 namespace App\Models\Products;
 
 use App\Models\Media\File;
+use App\Models\Orders\OrderItem;
 use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
@@ -40,5 +41,10 @@ class Product extends Model implements Sortable
     public function files()
     {
         return $this->hasMany(File::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

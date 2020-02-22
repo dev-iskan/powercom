@@ -18,8 +18,6 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'surname',
-        'patronymic',
         'phone',
         'email',
         'password'
@@ -59,6 +57,16 @@ class User extends Authenticatable
     }
 
     public function isOperator()
+    {
+        return $this->operator()->exists();
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
+
+    public function isClient()
     {
         return $this->operator()->exists();
     }

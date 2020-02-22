@@ -20,7 +20,6 @@ class UsersTableSeeder extends Seeder
 
         \App\Models\Users\User::create([
             'name' => 'Акбар',
-            'surname' => 'Аминов',
             'phone' => '998933938274',
             'email' => 'detskiy98@gmail.com',
             'password' => \Illuminate\Support\Facades\Hash::make('secret')
