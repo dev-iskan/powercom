@@ -2,6 +2,8 @@
 
 Route::namespace('Front')->group(function () {
     Route::get('/main', 'FrontController@main'); // copy and paste
+    Route::get('/about', 'FrontController@about');
+    Route::get('/public-offer', 'FrontController@publicOffer');
     // - steps of process
     // - search result
     // - news list
@@ -10,7 +12,6 @@ Route::namespace('Front')->group(function () {
     // - product
     // - cart
     // - public_offer
-    // - about
     // - contacts
 
     // - signin

@@ -11,4 +11,14 @@ class FrontController extends Controller
     {
         return view('main');
     }
+
+    public function about()
+    {
+        return view('about');
+    }
+
+    public function publicOffer()
+    {
+        return view('public-offer');
+    }
 }
