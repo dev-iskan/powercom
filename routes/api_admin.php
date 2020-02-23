@@ -8,6 +8,14 @@ Route::namespace('Auth')
         Route::get('me', 'AuthController@me')->middleware('auth:airlock');
     });
 
+Route::namespace('Settings')
+    ->prefix('settings')
+    ->middleware('auth:airlock')
+    ->group(function () {
+        Route::post('get_and_save_token', 'SmsController@getAndSaveToken');
+        Route::post('send_sms', 'SmsController@sendSms');
+    });
+
 Route::namespace('Users')
     ->middleware('auth:airlock')
     ->group(function () {
