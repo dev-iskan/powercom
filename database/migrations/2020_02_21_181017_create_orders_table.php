@@ -16,6 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
 
+            $table->string('unique_id')->unique()->index();
             $table->unsignedBigInteger('amount')->default(0);
             $table->boolean('paid')->default(false);
             $table->boolean('delivery')->default(false);

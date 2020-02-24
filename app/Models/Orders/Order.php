@@ -4,10 +4,12 @@ namespace App\Models\Orders;
 
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
     protected $fillable = [
+        'unique_id',
         'amount',
         'paid',
         'delivery',
@@ -17,6 +19,15 @@ class Order extends Model
     protected $dates = [
         'finished_at'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->unique_id = Str::upper(Str::random(10));
+        });
+    }
 
     public function client()
     {
@@ -36,6 +47,11 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
 }
