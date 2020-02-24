@@ -56,3 +56,9 @@ Route::namespace('Media')
         Route::post('files', 'FileController@store');
         Route::delete('files/{id}', 'FileController@destroy');
     });
+
+Route::namespace('Orders')
+    ->middleware('auth:airlock')
+    ->group(function () {
+        Route::apiResource('orders', 'OrderController')->only(['index', 'store', 'show']);
+    });

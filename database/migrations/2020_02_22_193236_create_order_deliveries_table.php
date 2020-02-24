@@ -20,7 +20,7 @@ class CreateOrderDeliveriesTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->unsignedBigInteger('price');
-            $table->timestamp('delivered_at');
+            $table->timestamp('delivered_at')->nullable();
 
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders');

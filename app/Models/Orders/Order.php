@@ -54,4 +54,19 @@ class Order extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function setCreatedStatus()
+    {
+        return $this->order_status_id = OrderSetting::statusCreated()->id;
+    }
+
+    public function setInProgressStatus()
+    {
+        return $this->order_status_id = OrderSetting::statusInProgress()->id;
+    }
+
+    public function setCompletedStatus()
+    {
+        return $this->order_status_id = OrderSetting::statusCompleted()->id;
+    }
+
 }
