@@ -20,7 +20,7 @@
                 </p>
                 <p>
                     <span class="icon">
-                        <i class="fas fa-phone"></i>
+                        <i class="fas fa-map-marker-alt"></i>
                     </span>
                     Узбекистан, г. Ташкент, ул. Олой, 1
                 </p>
