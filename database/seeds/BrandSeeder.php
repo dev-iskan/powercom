@@ -12,11 +12,11 @@ class BrandSeeder extends Seeder
     public function run()
     {
         \App\Models\Products\Brand::create([
-            'name' => 'Apple'
+            'name' => 'EKF'
         ]);
 
         \App\Models\Products\Brand::create([
-            'name' => 'Samsung'
+            'name' => 'Andeli Group'
         ]);
 
         \App\Models\Products\Brand::create([
