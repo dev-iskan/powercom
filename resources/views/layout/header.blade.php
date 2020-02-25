@@ -31,7 +31,7 @@
     @foreach ($categories as $category)
         <div class="level-item">
             <div class="navbar-item has-dropdown is-hoverable is-mega" style="height: 100%;">
-            <a class="navbar-item has-text-black">{{ $category->name }}</a>
+            <a href="{{ route('category', ['id' => $category->id]) }}" class="navbar-item has-text-black">{{ $category->name }}</a>
                 @if (count($category->children))
                 <div class="navbar-dropdown">
                     <div class="container" style="padding: 1em;">
@@ -40,7 +40,7 @@
                                 <h1 class="title is-6">{{ $category->name }}</h1>
                             </div>
                             @foreach ($category->children as $child)
-                                <a class="navbar-item column is-one-third" href="#">{{ $child->name }}</a>
+                                <a class="navbar-item column is-one-third" href="{{ route('category', ['id' => $child->id]) }}">{{ $child->name }}</a>
                             @endforeach
                         </div>
                     </div>

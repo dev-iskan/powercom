@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Products\Product;
+use App\Models\Products\Category;
 use App\Models\Blog\Article;
 use Illuminate\Http\Request;
 
@@ -24,5 +25,16 @@ class FrontController extends Controller
     public function publicOffer()
     {
         return view('public-offer');
+    }
+
+    public function category($id)
+    {
+        $category = Category::findOrFail($id);
+        $products = Product::with('categories', 'brand')->latest()->get();
+        if ($category) {
+            $category->children();
+            $category->parent();
+        }
+        return view('category', compact('category', 'products'));
     }
 }
