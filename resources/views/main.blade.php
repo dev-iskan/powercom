@@ -7,7 +7,7 @@
 @endsection
 
 @section('body')
-<div class="swiper-container">
+<div class="swiper-container hero">
     <div class="swiper-wrapper">
         @foreach($articles as $article)
             <div class="swiper-slide has-text-centered">

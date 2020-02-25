@@ -30,11 +30,11 @@
                     <strong>Информация</strong>
                 </p>
                 <br>
-                <a class="has-text-dark" href="{{ url('main') }}">Главная</a>
+                <a class="has-text-dark" href="{{ route('main') }}">Главная</a>
                 <br>
-                <a class="has-text-dark" href="{{ url('about') }}">О компании</a>
+                <a class="has-text-dark" href="{{ route('about') }}">О компании</a>
                 <br>
-                <a class="has-text-dark" href="{{ url('public-offer') }}">Публичная оферта</a>
+                <a class="has-text-dark" href="{{ route('public-offer') }}">Публичная оферта</a>
             </div>
             <div class="column is-full">
                 <hr>

@@ -16,12 +16,18 @@
             @else
                 <p class="is-size-7">В наличии: {{ $product->quantity }} шт.</p>
             @endif
+            <p>{{ number_format($product->price, 0) }} сум</p>
         </div>
     </div>
     <footer class="card-footer">
-        <p class="card-footer-item"> {{ number_format($product->price, 0) }} сум </p>
+        <a class="card-footer-item button is-white is-radiusless" style="height: 100%"
+            href="{{ route('product', ['id' => $product->id]) }}">
+            <span class="icon has-text-grey">
+                <i class="fas fa-book-open"></i>
+            </span>
+        </a>
         <div class="card-footer-item button is-white" style="height: 100%">
-            <span class="icon has-text-primary">
+            <span class="icon has-text-grey">
                 <i class="fas fa-shopping-cart"></i>
             </span>
         </div>

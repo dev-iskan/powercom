@@ -37,4 +37,10 @@ class FrontController extends Controller
         }
         return view('category', compact('category', 'products'));
     }
+
+    public function product($id)
+    {
+        $product = Product::with('categories', 'brand', 'files')->findOrFail($id);
+        return view('product', compact('product'));
+    }
 }
