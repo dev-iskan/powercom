@@ -1,9 +1,9 @@
 <?php
 
 Route::namespace('Front')->group(function () {
-    Route::get('/main', 'FrontController@main'); // copy and paste
-    Route::get('/about', 'FrontController@about');
-    Route::get('/public-offer', 'FrontController@publicOffer');
+    Route::get('/main', 'FrontController@main')->name('main'); // copy and paste
+    Route::get('/about', 'FrontController@about')->name('about');
+    Route::get('/public-offer', 'FrontController@publicOffer')->name('public-offer');
     // - steps of process
     // - search result
     // - news list
