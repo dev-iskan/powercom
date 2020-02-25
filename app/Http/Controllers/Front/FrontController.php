@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Products\Product;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
     public function main()
     {
-        return view('main');
+        $products = Product::with('categories', 'brand')->latest()->get();
+        return view('main', compact('products'));
     }
 
     public function about()

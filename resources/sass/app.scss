@@ -12,6 +12,14 @@ $primary: #0064C3;
     }
 }
 
+.product-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
 @media screen and (max-width: $desktop) {
     #catigories {
         display: none;

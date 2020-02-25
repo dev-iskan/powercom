@@ -7,7 +7,7 @@
 @endsection
 
 @section('body')
-<section class="hero is-info is-medium">
+<section class="hero is-info is-large">
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
@@ -18,5 +18,18 @@
             </h2>
         </div>
     </div>
-  </section>
+</section>
+<section class="section">
+    <h3 class="is-size-4 has-text-weight-bold has-text-centered">НОВЫЕ ТОВАРЫ</h3>
+    <br>
+    <div class="container">
+        <div class="columns is-multiline">
+            @foreach ($products as $product)
+                <div class="column is-one-third-tablet is-one-quarter-desktop">
+                    @include('components.card', ['product' => $product])
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
 @endsection
