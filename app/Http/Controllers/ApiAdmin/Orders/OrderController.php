@@ -4,8 +4,8 @@ namespace App\Http\Controllers\ApiAdmin\Orders;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Orders\StoreOrderRequest;
+use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Models\Orders\Order;
-use App\Models\Orders\OrderDelivery;
 use App\Models\Users\Client;
 use Illuminate\Http\Request;
 
@@ -32,9 +32,7 @@ class OrderController extends Controller
         $order->save();
 
         if ($request->delivery) {
-            $delivery = new OrderDelivery($request->all());
-            $delivery->order_id = $order->id;
-            $delivery->save();
+            $order->order_delivery()->create($request->all());
         }
 
         return $order;
@@ -46,7 +44,24 @@ class OrderController extends Controller
         return $order;
     }
 
-    public function setInProgress($id) {
+    public function update(UpdateOrderRequest $request, $id)
+    {
+        $order = Order::with('status', 'order_delivery')->findOrFail($id);
+
+        if (!$request->delivery && $order->order_delivery) {
+            $order->order_delivery()->delete();
+        } elseif ($request->delivery && $order->order_delivery) {
+            $order->order_delivery->update($request->all());
+        } elseif ($request->delivery) {
+            $order->order_delivery()->create($request->all());
+        }
+        $order->update($request->all());
+
+        return $order->fresh('order_delivery');
+    }
+
+    public function setInProgress($id)
+    {
         $order = Order::findOrFail($id);
 
         $order->setInProgressStatus();
@@ -55,7 +70,8 @@ class OrderController extends Controller
         return $order;
     }
 
-    public function setCompleted($id) {
+    public function setCompleted($id)
+    {
         $order = Order::findOrFail($id);
 
         $order->setCompletedStatus();
