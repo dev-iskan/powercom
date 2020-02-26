@@ -6,13 +6,12 @@ Route::namespace('Front')->group(function () {
     Route::get('/public-offer', 'FrontController@publicOffer')->name('public-offer');
     Route::get('/category/{id}', 'FrontController@category')->name('category');
     Route::get('/product/{id}', 'FrontController@product')->name('product');
+    Route::get('/article/{id}', 'FrontController@article')->name('article');
+    
     // - steps of process
     // - search result
-    // - news list
-    // - news show
     // - cart
-    // - contacts
-
+    
     // - signin
     //  - phone confirmation
     // - signup
