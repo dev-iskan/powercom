@@ -45,4 +45,32 @@ class OrderController extends Controller
         $order = Order::with('items', 'status', 'order_delivery')->findOrFail($id);
         return $order;
     }
+
+    public function setInProgress($id) {
+        $order = Order::findOrFail($id);
+
+        $order->setInProgressStatus();
+        $order->save();
+
+        return $order;
+    }
+
+    public function setCompleted($id) {
+        $order = Order::findOrFail($id);
+
+        $order->setCompletedStatus();
+        $order->save();
+
+        return $order;
+    }
+
+    public function destroy($id)
+    {
+        $order = Order::findOrFail($id);
+
+        $order->setCancelledStatus();
+        $order->save();
+
+        return $order;
+    }
 }

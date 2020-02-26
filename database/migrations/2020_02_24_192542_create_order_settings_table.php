@@ -25,6 +25,9 @@ class CreateOrderSettingsTable extends Migration
             $table->unsignedBigInteger('status_completed')->nullable();
             $table->foreign('status_completed')->references('id')->on('order_statuses');
 
+            $table->unsignedBigInteger('status_cancelled')->nullable();
+            $table->foreign('status_cancelled')->references('id')->on('order_statuses');
+
             $table->timestamps();
         });
     }

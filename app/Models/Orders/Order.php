@@ -72,10 +72,20 @@ class Order extends Model
         return $this->order_status_id = OrderSetting::statusCompleted()->id;
     }
 
+    public function setCancelledStatus()
+    {
+        return $this->order_status_id = OrderSetting::statusCancelled()->id;
+    }
+
     // =helpers
     public function updateAmount()
     {
         $this->amount = $this->items()->sum(DB::raw('order_items.price * order_items.quantity'));
         $this->save();
+    }
+
+    public function isValid()
+    {
+        return $this->items()->exists();
     }
 }

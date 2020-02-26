@@ -9,7 +9,8 @@ class OrderSetting extends Model
     protected $fillable = [
         'status_created',
         'status_in_progress',
-        'status_completed'
+        'status_completed',
+        'status_cancelled'
     ];
 
     public static function statusCreated()
@@ -28,5 +29,10 @@ class OrderSetting extends Model
     {
         $setting = self::first();
         return OrderStatus::find($setting->status_completed);
+    }
+
+    public static function statusCancelled(){
+        $setting = self::first();
+        return OrderStatus::find($setting->status_cancelled);
     }
 }

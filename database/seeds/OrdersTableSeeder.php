@@ -29,10 +29,19 @@ class OrdersTableSeeder extends Seeder
             'class' => 'success'
         ]);
 
+
+        \App\Models\Orders\OrderStatus::create([
+            'name' => 'отменен',
+            'color' => '#00000',
+            'class' => 'danger'
+        ]);
+
+
         \App\Models\Orders\OrderSetting::create([
             'status_created' => 1,
             'status_in_progress' => 2,
-            'status_completed' => 3
+            'status_completed' => 3,
+            'status_cancelled' => 4
         ]);
     }
 }
