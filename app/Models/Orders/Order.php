@@ -4,6 +4,7 @@ namespace App\Models\Orders;
 
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Order extends Model
@@ -29,6 +30,7 @@ class Order extends Model
         });
     }
 
+    // =relations
     public function client()
     {
         return $this->belongsTo(Client::class);
@@ -54,6 +56,7 @@ class Order extends Model
         return $this->hasMany(Payment::class);
     }
 
+    // =statuses
     public function setCreatedStatus()
     {
         return $this->order_status_id = OrderSetting::statusCreated()->id;
@@ -69,4 +72,10 @@ class Order extends Model
         return $this->order_status_id = OrderSetting::statusCompleted()->id;
     }
 
+    // =helpers
+    public function updateAmount()
+    {
+        $this->amount = $this->items()->sum(DB::raw('order_items.price * order_items.quantity'));
+        $this->save();
+    }
 }

@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $ordersQuery = Order::query();
+        $ordersQuery = Order::with('status');
         if ($request->query('paginate') == true) {
             return $ordersQuery->paginate($request->offset ?? 10);
         }
@@ -28,6 +28,7 @@ class OrderController extends Controller
         $order = new Order();
         $order->client_id = $client->id;
         $order->setCreatedStatus();
+        $order->delivery = $request->delivery;
         $order->save();
 
         if ($request->delivery) {
@@ -39,8 +40,9 @@ class OrderController extends Controller
         return $order;
     }
 
-    public function show()
+    public function show($id)
     {
-
+        $order = Order::with('items', 'status', 'order_delivery')->findOrFail($id);
+        return $order;
     }
 }

@@ -59,6 +59,8 @@ Route::namespace('Media')
 
 Route::namespace('Orders')
     ->middleware('auth:airlock')
+    ->prefix('orders')
     ->group(function () {
+        Route::apiResource('items', 'OrderItemController')->except(['show']);
         Route::apiResource('orders', 'OrderController')->only(['index', 'store', 'show']);
     });
