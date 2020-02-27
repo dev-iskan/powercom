@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ApiAdmin\Products;
 
+use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
@@ -9,6 +10,8 @@ use App\Models\Products\Brand;
 use App\Models\Products\Category;
 use App\Models\Products\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -78,5 +81,11 @@ class ProductController extends Controller
             $category_ids[] = $category->id;
         }
         return $category_ids;
+    }
+
+    public function export()
+    {
+        $date = today()->format('d_m_Y');
+        return Excel::download(new ProductExport(), "products_{$date}.xlsx");
     }
 }

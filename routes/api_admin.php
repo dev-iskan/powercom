@@ -36,6 +36,7 @@ Route::namespace('Products')
         Route::apiResource('categories', 'CategoryController');
         Route::apiResource('brands', 'BrandController');
         Route::apiResource('products', 'ProductController');
+        Route::post('excel/export_products', 'ProductController@export');
     });
 
 Route::namespace('Articles')
