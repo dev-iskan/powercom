@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $ordersQuery = Order::with('status');
+        $ordersQuery = Order::with('status', 'client');
         if ($request->query('paginate') == true) {
             return $ordersQuery->paginate($request->offset ?? 10);
         }
@@ -40,7 +40,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with('items', 'status', 'order_delivery')->findOrFail($id);
+        $order = Order::with('items', 'status', 'order_delivery', 'client')->findOrFail($id);
         return $order;
     }
 
