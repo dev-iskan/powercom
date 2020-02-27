@@ -13,26 +13,26 @@ class OrdersTableSeeder extends Seeder
     {
         \App\Models\Orders\OrderStatus::create([
             'name' => 'новый',
-            'color' => '#00000',
+            'color' => '#BDBDBD',
             'class' => 'info'
         ]);
 
         \App\Models\Orders\OrderStatus::create([
             'name' => 'в процессе',
-            'color' => '#00000',
+            'color' => '#FFDF00',
             'class' => 'warning'
         ]);
 
         \App\Models\Orders\OrderStatus::create([
             'name' => 'завершен',
-            'color' => '#00000',
+            'color' => '#32CD32',
             'class' => 'success'
         ]);
 
 
         \App\Models\Orders\OrderStatus::create([
             'name' => 'отменен',
-            'color' => '#00000',
+            'color' => '#FF6347',
             'class' => 'danger'
         ]);
 
