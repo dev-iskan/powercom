@@ -13,7 +13,24 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $ordersQuery = Order::with('status', 'client');
+        $ordersQuery = Order::with('status', 'client')->latest();
+
+        if ($q = $request->query('q')) {
+            $ordersQuery->where('unique_id', 'ilike', '%' . $q . '%');
+        }
+
+        if ($paid = $request->query('paid')) {
+            $ordersQuery->where('paid', $paid);
+        }
+
+        if ($delivery = $request->query('delivery')) {
+            $ordersQuery->where('delivery', $delivery);
+        }
+
+        if ($status_id = $request->query('status_id')) {
+            $ordersQuery->where('order_status_id', $status_id);
+        }
+
         if ($request->query('paginate') == true) {
             return $ordersQuery->paginate($request->offset ?? 10);
         }
