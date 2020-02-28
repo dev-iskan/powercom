@@ -85,5 +85,10 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace.'\ApiAdmin')
             ->group(base_path('routes/api_admin.php'));
+
+        Route::prefix('api/billing')
+            ->middleware('api')
+            ->namespace($this->namespace.'\ApiBilling')
+            ->group(base_path('routes/api_billing.php'));
     }
 }
