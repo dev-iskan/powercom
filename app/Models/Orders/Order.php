@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 class Order extends Model
 {
+    use OrderStatusTrait;
     protected $fillable = [
         'unique_id',
         'amount',
@@ -56,27 +57,6 @@ class Order extends Model
         return $this->hasMany(Payment::class);
     }
 
-    // =statuses
-    public function setCreatedStatus()
-    {
-        return $this->order_status_id = OrderSetting::statusCreated()->id;
-    }
-
-    public function setInProgressStatus()
-    {
-        return $this->order_status_id = OrderSetting::statusInProgress()->id;
-    }
-
-    public function setCompletedStatus()
-    {
-        return $this->order_status_id = OrderSetting::statusCompleted()->id;
-    }
-
-    public function setCancelledStatus()
-    {
-        return $this->order_status_id = OrderSetting::statusCancelled()->id;
-    }
-
     // =helpers
     public function updateAmount()
     {
@@ -87,5 +67,16 @@ class Order extends Model
     public function isValid()
     {
         return $this->items()->exists();
+    }
+
+    public function isDelivered()
+    {
+        return $this->order_delivery && $this->order_delivery->delivered;
+    }
+
+    public function balance()
+    {
+        $paid_amount =  $this->payments()->sum('amount');
+        return $this->amount - $paid_amount;
     }
 }

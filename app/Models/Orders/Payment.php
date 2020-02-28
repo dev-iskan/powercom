@@ -20,6 +20,17 @@ class Payment extends Model
         'cancelled_time'
     ];
 
+    public static function getPaymentMethods()
+    {
+        return [
+            'cash',
+            'terminal',
+            'transfer',
+            'payme',
+            'click'
+        ];
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class);

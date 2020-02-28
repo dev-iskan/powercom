@@ -31,6 +31,10 @@ class OrderItemController extends Controller
         $order = Order::findOrFail($request->order_id);
         $product = Product::findOrFail($request->product_id);
 
+        if (!$order->isCreated()) {
+            return response()->json(['message' => 'Заказ должен быть в новым'], 400);
+        }
+        //TODO check product active and quantity satisfies
         $item = new OrderItem($request->all());
         $item->product_id = $product->id;
         $item->order_id = $order->id;
@@ -45,6 +49,10 @@ class OrderItemController extends Controller
         $product = Product::findOrFail($request->product_id);
 
         $item = OrderItem::with('order')->findOrFail($id);
+        if (!$item->order->isCreated()) {
+            return response()->json(['message' => 'Заказ должен быть в новым'], 400);
+        }
+
         $item->fill($request->all());
         $item->product_id = $product->id;
         $item->save();
@@ -56,6 +64,10 @@ class OrderItemController extends Controller
     public function destroy($id)
     {
         $item = OrderItem::with('order')->findOrFail($id);
+        if (!$item->order->isCreated()) {
+            return response()->json(['message' => 'Заказ должен быть в новым'], 400);
+        }
+
         $item->delete();
 
         $item->order->updateAmount();

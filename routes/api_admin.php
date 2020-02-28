@@ -66,6 +66,8 @@ Route::namespace('Orders')
         Route::apiResource('orders', 'OrderController');
         Route::post('orders/{id}/set_in_progress', 'OrderController@setInProgress');
         Route::post('orders/{id}/set_completed', 'OrderController@setCompleted');
+        Route::post('orders/{id}/complete_delivery', 'OrderController@completeDelivery');
 
+        Route::get('payments', 'PaymentController@index');
         Route::post('payments', 'PaymentController@store');
     });

@@ -62,7 +62,16 @@ class OrderController extends Controller
 
     public function setInProgress($id)
     {
+        /** @var Order $order */
         $order = Order::findOrFail($id);
+
+        if (!$order->isCreated()) {
+            return response()->json(['message' => 'Заказ должен быть в новым'], 400);
+        }
+
+        if (!$order->isValid()) {
+            return response()->json(['message' => 'Заказ должен иметь товары'], 400);
+        }
 
         $order->setInProgressStatus();
         $order->save();
@@ -72,16 +81,52 @@ class OrderController extends Controller
 
     public function setCompleted($id)
     {
+        /** @var Order $order */
         $order = Order::findOrFail($id);
 
+        if (!$order->isInProgress()) {
+            return response()->json(['message' => 'Заказ должен быть в процессе'], 400);
+        }
+
+        if (!$order->paid) {
+            return response()->json(['message' => 'Заказ должен быть оплачен'], 400);
+        }
+
+        if ($order->delivery && !$order->isDelivered()) {
+            return response()->json(['message' => 'Заказ должен быть доставлен'], 400);
+        }
+
+        $order->finished_at = now();
         $order->setCompletedStatus();
         $order->save();
 
         return $order;
     }
 
+    public function completeDelivery($id)
+    {
+        /** @var Order $order */
+        $order = Order::with('order_delivery')->findOrFail($id);
+
+        if (!$order->delivery) {
+            return response()->json(['message' => 'Доставка не заказ не существует'], 400);
+        }
+
+        $delivery = $order->order_delivery;
+        if ($delivery->delivered) {
+            return response()->json(['message' => 'Уже доставлено'], 400);
+        }
+
+        $delivery->delivered = true;
+        $delivery->delivered_at = now();
+        $delivery->save();
+
+        return $order;
+    }
+
     public function destroy($id)
     {
+        /** @var Order $order */
         $order = Order::findOrFail($id);
 
         $order->setCancelledStatus();
