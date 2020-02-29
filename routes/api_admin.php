@@ -45,6 +45,8 @@ Route::namespace('Articles')
         Route::apiResource('articles', 'ArticleController');
     });
 
+Route::get('app', 'AppController@index')->middleware('auth:airlock');
+
 Route::namespace('Media')
     ->middleware('auth:airlock')
     ->prefix('media')
@@ -63,12 +65,14 @@ Route::namespace('Orders')
     ->prefix('orders')
     ->group(function () {
         Route::apiResource('items', 'OrderItemController')->except(['show']);
+        Route::get('orders/counter', 'OrderController@counter');
         Route::apiResource('orders', 'OrderController');
+
         Route::post('orders/{id}/set_in_progress', 'OrderController@setInProgress');
         Route::post('orders/{id}/set_completed', 'OrderController@setCompleted');
         Route::post('orders/{id}/complete_delivery', 'OrderController@completeDelivery');
 
+
         Route::get('payments', 'PaymentController@index');
-        Route::get('payment_methods', 'PaymentController@getPaymentMethods');
         Route::post('payments', 'PaymentController@store');
     });

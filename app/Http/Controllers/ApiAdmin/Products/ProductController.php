@@ -22,6 +22,13 @@ class ProductController extends Controller
             $productQuery->where('name', 'ilike', "%{$q}%");
         }
 
+        if ($request->query('categories')) {
+            $category_ids = explode(';', $request->query('categories'));
+            $productQuery->whereHas('categories', function ($query) use ($category_ids) {
+                $query->whereIn('categories.id', $category_ids);
+            });
+        }
+
         if ($request->query('paginate') == true) {
             return $productQuery->paginate($request->offset ?? 10);
         }
