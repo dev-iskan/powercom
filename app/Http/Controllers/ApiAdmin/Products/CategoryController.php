@@ -15,7 +15,7 @@ class CategoryController extends Controller
         $categoriesQuery = Category::latest();
 
         if ($q = $request->query('q')) {
-            $categoriesQuery->where('name', 'ilike', '%' . $q . '%');
+            $categoriesQuery->where('name', 'ilike', "%{$q}%");
         }
 
         if ($request->query('type') == 'parent') {

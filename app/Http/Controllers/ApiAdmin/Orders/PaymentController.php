@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Orders\Order;
 use App\Models\Orders\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -13,7 +14,7 @@ class PaymentController extends Controller
 {
     public function index(Request $request)
     {
-        $paymentQuery = Payment::query();
+        $paymentQuery = Payment::with('order.client');
 
         if ($request->query('paginate') == true) {
             return $paymentQuery->paginate($request->offset ?? 10);
@@ -28,7 +29,7 @@ class PaymentController extends Controller
             'order_id' => 'required|integer',
             'payment_method' => [
                 'required',
-                Rule::in(Payment::getPaymentMethods()),
+                Rule::in(array_keys(Payment::getPaymentMethods())),
             ],
             'amount' => 'required|integer'
         ]);
@@ -62,5 +63,10 @@ class PaymentController extends Controller
         });
 
         return $payment;
+    }
+
+    public function getPaymentMethods()
+    {
+        return Payment::getPaymentMethods();
     }
 }

@@ -10,7 +10,6 @@ use App\Models\Products\Brand;
 use App\Models\Products\Category;
 use App\Models\Products\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
@@ -18,6 +17,10 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $productQuery = Product::with('categories', 'brand')->latest();
+
+        if ($q = $request->query('q')) {
+            $productQuery->where('name', 'ilike', "%{$q}%");
+        }
 
         if ($request->query('paginate') == true) {
             return $productQuery->paginate($request->offset ?? 10);

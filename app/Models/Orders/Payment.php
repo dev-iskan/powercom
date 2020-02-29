@@ -29,11 +29,11 @@ class Payment extends Model
     public static function getPaymentMethods()
     {
         return [
-            'cash',
-            'terminal',
-            'transfer',
-            'payme',
-            'click'
+            'cash' => 'Наличные',
+            'terminal' => 'Терминал',
+            'transfer' => 'Перечисление',
+            'payme' => 'Payme',
+            'click' => 'Click'
         ];
     }
 

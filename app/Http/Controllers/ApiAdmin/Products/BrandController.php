@@ -14,7 +14,7 @@ class BrandController extends Controller
         $brandsQuery = Brand::latest();
 
         if ($q = $request->query('q')) {
-            $brandsQuery->where('name', 'ilike', '%' . $q . '%');
+            $brandsQuery->where('name', 'ilike', "%{$q}%");
         }
 
         if ($request->query('paginate') == true) {

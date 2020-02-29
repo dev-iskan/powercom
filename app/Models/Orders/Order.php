@@ -74,6 +74,11 @@ class Order extends Model
         return $this->order_delivery && $this->order_delivery->delivered;
     }
 
+    public function scopeForDelivery($query)
+    {
+        return $query->where('delivery', true)->whereHas('order_delivery');
+    }
+
     public function balance()
     {
         $paid_amount =  $this->payments()->sum('amount');

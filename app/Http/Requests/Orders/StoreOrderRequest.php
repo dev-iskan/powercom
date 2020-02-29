@@ -26,10 +26,10 @@ class StoreOrderRequest extends FormRequest
         return [
             'client_id' => 'required|integer',
             'delivery' => 'nullable|boolean',
-            'full_name' => 'required_with:delivery|string|max:255',
-            'phone' => 'required_with:delivery|digits:12',
-            'address' => 'required_with:delivery|string|max:255',
-            'price' => 'required_with:delivery|numeric'
+            'full_name' => 'required_if:delivery,1|string|max:255',
+            'phone' => 'required_if:delivery,1|digits:12',
+            'address' => 'required_if:delivery,1|string|max:255',
+            'price' => 'required_if:delivery,1|numeric'
         ];
     }
 }
