@@ -65,7 +65,6 @@ Route::namespace('Orders')
     ->prefix('orders')
     ->group(function () {
         Route::apiResource('items', 'OrderItemController')->except(['show']);
-        Route::get('orders/counter', 'OrderController@counter');
         Route::apiResource('orders', 'OrderController');
 
         Route::post('orders/{id}/set_in_progress', 'OrderController@setInProgress');
