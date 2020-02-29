@@ -21,6 +21,7 @@ class ProductController extends Controller
         if ($q = $request->query('q')) {
             $productQuery->where('name', 'ilike', "%{$q}%");
         }
+        //TODO search by categories
 
         if ($request->query('paginate') == true) {
             return $productQuery->paginate($request->offset ?? 10);

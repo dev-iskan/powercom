@@ -17,7 +17,16 @@ class OrderController extends Controller
         $ordersQuery = Order::with('status', 'client')->latest();
 
         if ($q = $request->query('q')) {
-            $ordersQuery->where('unique_id', 'ilike', "%{$q}%");
+            $ordersQuery->where(function ($query) use ($q) {
+                $query->whereHas('client', function ($clientQuery) use ($q) {
+                    $clientQuery->where('name', 'ilike', "%{$q}%")
+                        ->orWhere('surname', 'ilike', "%{$q}%")
+                        ->orWhere('patronymic', 'ilike', "%{$q}%")
+                        ->orWhere('phone', 'ilike', "%{$q}%")
+                        ->orWhere('email', 'ilike', "%{$q}%");
+                })
+                    ->orWhere('unique_id', 'ilike', "%{$q}%");
+            });
         }
 
         if ($paid = $request->query('paid')) {

@@ -16,6 +16,21 @@ class PaymentController extends Controller
     {
         $paymentQuery = Payment::with('order.client');
 
+        if ($q = $request->query('q')) {
+            $paymentQuery->where(function ($query) use ($q) {
+                $query->whereHas('order', function ($orderQuery) use ($q) {
+                    $orderQuery->whereHas('client', function ($clientQuery) use ($q) {
+                        $clientQuery->where('name', 'ilike', "%{$q}%")
+                            ->orWhere('surname', 'ilike', "%{$q}%")
+                            ->orWhere('patronymic', 'ilike', "%{$q}%")
+                            ->orWhere('phone', 'ilike', "%{$q}%")
+                            ->orWhere('email', 'ilike', "%{$q}%");
+                    })
+                        ->orWhere('unique_id', 'ilike', "%{$q}%");
+                });
+            });
+        }
+
         if ($request->query('paginate') == true) {
             return $paymentQuery->paginate($request->offset ?? 10);
         }
