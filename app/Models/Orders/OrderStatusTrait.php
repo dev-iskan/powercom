@@ -48,4 +48,14 @@ trait OrderStatusTrait
     {
         return $query->where('order_status_id', OrderSetting::statusCreated()->id);
     }
+
+    public function scopeInProgress($query)
+    {
+        return $query->where('order_status_id', OrderSetting::statusInProgress()->id);
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('order_status_id', OrderSetting::statusCompleted()->id);
+    }
 }

@@ -74,14 +74,29 @@ class Order extends Model
         return $this->order_delivery && $this->order_delivery->delivered;
     }
 
+    public function balance()
+    {
+        $paid_amount =  $this->payments()->paid()->sum('amount');
+        return $this->amount - $paid_amount;
+    }
+
     public function scopeForDelivery($query)
     {
         return $query->where('delivery', true)->whereHas('order_delivery');
     }
 
-    public function balance()
+    public function scopeByUniqueId($query, $unique_id)
     {
-        $paid_amount =  $this->payments()->sum('amount');
-        return $this->amount - $paid_amount;
+        return $query->where('unique_id', Str::upper($unique_id));
+    }
+
+    public function scopePaid($query)
+    {
+        return $query->where('paid', true);
+    }
+
+    public function scopeUnpaid($query)
+    {
+        return $query->where('paid', false);
     }
 }

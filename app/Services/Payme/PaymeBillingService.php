@@ -3,7 +3,7 @@
 namespace App\Services\Payme;
 
 use App\Models\Orders\Order;
-use App\Models\Orders\Transaction;
+use App\Models\Orders\Payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -91,11 +91,11 @@ class PaymeBillingService
         }
 
         // if order created or paid transaction already exists
-        $existed_transaction = Transaction::where('order_id', $order_or_error->id)
-            ->whereIn('payme_state', [Transaction::STATE_CREATED, Transaction::STATE_COMPLETED])
+        $existed_payment = Payment::where('order_id', $order_or_error->id)
+            ->whereIn('payme_state', [Payment::STATE_CREATED, Payment::STATE_COMPLETED])
             ->where('payme_receipt_id', '!=', $request->params['id'])
             ->first();
-        if ($existed_transaction) {
+        if ($existed_payment) {
             return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'time', [
                 'ru' => 'Заказ в ожидании оплаты',
                 'uz' => 'To`lovni kutish uchun buyurtma',
@@ -104,49 +104,46 @@ class PaymeBillingService
         }
 
         // get transaction by payme_id
-        $transaction = Transaction::byPaymeId($request->params['id'])->first();
+        $payment = Payment::byPaymeId($request->params['id'])->first();
         // if no transaction create new
-        if (!$transaction) {
-            if (now()->timestamp * 1000 - $request->params['time'] > Transaction::TIMEOUT) {
+        if (!$payment) {
+            if (now()->timestamp * 1000 - $request->params['time'] > Payment::TIMEOUT) {
                 return self::getErrorResponse(self::ERROR_COULD_NOT_PERFORM, 'time');
             }
             $payme_time = Carbon::createFromTimestamp($request->params['time'] / 1000);
 
-            $transaction = new Transaction();
-            $transaction->amount = $request->params['amount'];
+            $payment = new Payment();
+            $payment->amount = $request->params['amount'];
 
-            $transaction->payme_time = $payme_time;
-            $transaction->payment_method = 'payme';
-            $transaction->payme_receipt_id = $request->params['id'];
-            $transaction->payme_state = Transaction::STATE_CREATED;
-            $transaction->order()->associate($order_or_error);
-            $transaction->save();
-
-            $order_or_error->status = Order::STATUS_WAITING_PAY;
-            $order_or_error->save();
+            $payment->payme_time = $payme_time;
+            $payment->payment_method = 'payme';
+            $payment->payme_receipt_id = $request->params['id'];
+            $payment->payme_state = Payment::STATE_CREATED;
+            $payment->order()->associate($order_or_error);
+            $payment->save();
 
             return [
                 'result' => [
-                    'create_time' => $transaction->payme_time->timestamp * 1000,
-                    'transaction' => (string)$transaction->id,
-                    'state' => $transaction->payme_state
+                    'create_time' => $payment->payme_time->timestamp * 1000,
+                    'transaction' => (string)$payment->id,
+                    'state' => $payment->payme_state
                 ],
                 'id' => $request->id
             ];
         }
 
         // check state of transaction
-        if ($transaction->payme_state !== Transaction::STATE_CREATED) {
+        if ($payment->payme_state !== Payment::STATE_CREATED) {
             return self::getErrorResponse(self::ERROR_COULD_NOT_PERFORM);
-        } elseif ($transaction->isPaymeExpired()) {
-            $transaction->cancelPayme(Transaction::STATE_CANCELLED, Transaction::REASON_CANCELLED_BY_TIMEOUT);
+        } elseif ($payment->isPaymeExpired()) {
+            $payment->cancelPayme(Payment::STATE_CANCELLED, Payment::REASON_CANCELLED_BY_TIMEOUT);
             return self::getErrorResponse(self::ERROR_COULD_NOT_PERFORM, 'time');
         } else {
             return [
                 'result' => [
-                    'create_time' => $transaction->payme_time->timestamp * 1000,
-                    'transaction' => (string)$transaction->id,
-                    'state' => $transaction->payme_state
+                    'create_time' => $payment->payme_time->timestamp * 1000,
+                    'transaction' => (string)$payment->id,
+                    'state' => $payment->payme_state
                 ],
                 'id' => $request->id
             ];
@@ -155,40 +152,44 @@ class PaymeBillingService
 
     public static function PerformTransaction(Request $request)
     {
-        $transaction = Transaction::byPaymeId($request->params['id'])->first();
-        $perform_time = $transaction->payme_perform_time;
-        if (!$transaction) {
+        $payment = Payment::byPaymeId($request->params['id'])->first();
+        $perform_time = $payment->payme_perform_time;
+        if (!$payment) {
             return self::getErrorResponse(self::ERROR_TRANSACTION_NOT_FOUND);
         }
 
-        if ($transaction->payme_state === Transaction::STATE_CREATED) {
-            if ($transaction->isPaymeExpired()) {
-                $transaction->cancelPayme(Transaction::STATE_CANCELLED, Transaction::REASON_CANCELLED_BY_TIMEOUT);
-                $transaction->order->makeAvailable();
+        if ($payment->payme_state === Payment::STATE_CREATED) {
+            if ($payment->isPaymeExpired()) {
+                $payment->cancelPayme(Payment::STATE_CANCELLED, Payment::REASON_CANCELLED_BY_TIMEOUT);
+                $payment->order->makeAvailable();
                 return self::getErrorResponse(self::ERROR_COULD_NOT_PERFORM, 'time');
             }
 
-            $transaction->paid = true;
-            $transaction->performPayme();
+            $payment->paid = true;
+            $payment->performPayme();
+            $perform_time = $payment->payme_perform_time;
 
-            $transaction->order->acceptPayment($transaction);
+            $order = $payment->order;
+            if ($order->balance() == 0) {
+                $order->paid = true;
+                $order->save();
+            }
 
-            $perform_time = $transaction->payme_perform_time;
             return [
                 'result' => [
-                    'transaction' => (string)$transaction->id,
+                    'transaction' => (string)$payment->id,
                     'perform_time' => $perform_time ? $perform_time->timestamp * 1000 : 0,
-                    'state' => $transaction->payme_state
+                    'state' => $payment->payme_state
                 ],
                 'id' => $request->id
             ];
         }
-        if ($transaction->payme_state === Transaction::STATE_COMPLETED) {
+        if ($payment->payme_state === Payment::STATE_COMPLETED) {
             return [
                 'result' => [
-                    'transaction' => (string)$transaction->id,
+                    'transaction' => (string)$payment->id,
                     'perform_time' => $perform_time ? $perform_time->timestamp * 1000 : 0,
-                    'state' => $transaction->payme_state
+                    'state' => $payment->payme_state
                 ],
                 'id' => $request->id
             ];
@@ -199,20 +200,20 @@ class PaymeBillingService
 
     public static function CheckTransaction(Request $request)
     {
-        $transaction = Transaction::byPaymeId($request->params['id'])->first();
-        if (!$transaction) {
+        $payment = Payment::byPaymeId($request->params['id'])->first();
+        if (!$payment) {
             return self::getErrorResponse(self::ERROR_TRANSACTION_NOT_FOUND);
         }
-        $perform_time = $transaction->payme_perform_time;
-        $cancel_time = $transaction->payme_cancel_time;
+        $perform_time = $payment->payme_perform_time;
+        $cancel_time = $payment->payme_cancel_time;
         return [
             'result' => [
-                'create_time' => $transaction->payme_time->timestamp * 1000,
+                'create_time' => $payment->payme_time->timestamp * 1000,
                 'perform_time' => $perform_time ? $perform_time->timestamp * 1000 : 0,
                 'cancel_time' => $cancel_time ? $cancel_time->timestamp * 1000 : 0,
-                'transaction' => (string)$transaction->id,
-                'state' => $transaction->payme_state,
-                'reason' => $transaction->payme_cancel_reason
+                'transaction' => (string)$payment->id,
+                'state' => $payment->payme_state,
+                'reason' => $payment->payme_cancel_reason
             ],
             'id' => $request->id
         ];
@@ -220,52 +221,51 @@ class PaymeBillingService
 
     public static function CancelTransaction(Request $request)
     {
-        $transaction = Transaction::byPaymeId($request->params['id'])->with('order')->first();
-        if (!$transaction) {
+        $payment = Payment::byPaymeId($request->params['id'])->with('order')->first();
+        if (!$payment) {
             return self::getErrorResponse(self::ERROR_TRANSACTION_NOT_FOUND);
         }
 
         // if transaction already cancelled
-        if ($transaction->payme_state == Transaction::STATE_CANCELLED ||
-            $transaction->payme_state == Transaction::STATE_CANCELLED_AFTER_COMPLETE) {
+        if ($payment->payme_state == Payment::STATE_CANCELLED ||
+            $payment->payme_state == Payment::STATE_CANCELLED_AFTER_COMPLETE) {
 
-            $cancel_time = $transaction->payme_cancel_time;
+            $cancel_time = $payment->payme_cancel_time;
             return [
                 'result' => [
-                    'transaction' => (string)$transaction->id,
+                    'transaction' => (string)$payment->id,
                     'cancel_time' => $cancel_time ? $cancel_time->timestamp * 1000 : 0,
-                    'state' => $transaction->payme_state
+                    'state' => $payment->payme_state
                 ],
                 'id' => $request->id
             ];
         } // if transaction created but not completed cancel it
-        elseif ($transaction->payme_state == Transaction::STATE_CREATED) {
-            $transaction->cancelPayme(Transaction::STATE_CANCELLED, (int)$request->params['reason']);
-            $cancel_time = $transaction->payme_cancel_time;
+        elseif ($payment->payme_state == Payment::STATE_CREATED) {
+            $payment->cancelPayme(Payment::STATE_CANCELLED, (int)$request->params['reason']);
+            $cancel_time = $payment->payme_cancel_time;
 
-            $transaction->order->makeAvailable();
+            $payment->order->makeAvailable();
             return [
                 'result' => [
-                    'transaction' => (string)$transaction->id,
+                    'transaction' => (string)$payment->id,
                     'cancel_time' => $cancel_time ? $cancel_time->timestamp * 1000 : 0,
-                    'state' => $transaction->payme_state
+                    'state' => $payment->payme_state
                 ],
                 'id' => $request->id
             ];
-        } elseif ($transaction->payme_state == Transaction::STATE_COMPLETED) {
-            if ($transaction->order->canBeCancelled()) {
+        } elseif ($payment->payme_state == Payment::STATE_COMPLETED) {
+            if ($payment->order->isInProcess()) {
 
-                $transaction->paid = false;
-                $transaction->cancelPayme(Transaction::STATE_CANCELLED_AFTER_COMPLETE, (int)$request->params['reason']);
+                $payment->paid = false;
+                $payment->cancelPayme(Payment::STATE_CANCELLED_AFTER_COMPLETE, (int)$request->params['reason']);
+                $cancel_time = $payment->payme_cancel_time;
 
-                $transaction->order->cancelPayment($transaction);
 
-                $cancel_time = $transaction->payme_cancel_time;
                 return [
                     'result' => [
-                        'transaction' => (string)$transaction->id,
+                        'transaction' => (string)$payment->id,
                         'cancel_time' => $cancel_time ? $cancel_time->timestamp * 1000 : 0,
-                        'state' => $transaction->payme_state
+                        'state' => $payment->payme_state
                     ],
                     'id' => $request->id
                 ];
@@ -303,27 +303,27 @@ class PaymeBillingService
         $from = Carbon::createFromTimestamp($request->params['from'] / 1000);
         $to = Carbon::createFromTimestamp($request->params['to'] / 1000);
 
-        $transactions = Transaction::paymeApplication()->where('payme_time', '>=', $from)->where('payme_time', '<=', $to)->get();
+        $payments = Payment::paymeApplication()->where('payme_time', '>=', $from)->where('payme_time', '<=', $to)->get();
 
-        $formattedTransactions = $transactions->map(function ($transaction) {
-            $time = $transaction->payme_time;
-            $create_time = $transaction->payme_time;
-            $perform_time = $transaction->payme_perform_time;
-            $cancel_time = $transaction->payme_cancel_time;
+        $formattedTransactions = $payments->map(function ($payment) {
+            $time = $payment->payme_time;
+            $create_time = $payment->payme_time;
+            $perform_time = $payment->payme_perform_time;
+            $cancel_time = $payment->payme_cancel_time;
 
             return [
-                'id' => $transaction->payme_receipt_id,
+                'id' => $payment->payme_receipt_id,
                 'time' => $time ? $time->timestamp * 1000 : 0,
-                'amount' => $transaction->amount,
+                'amount' => $payment->amount,
                 'account' => [
-                    'order_id' => (string)$transaction->order_id
+                    'order_id' => (string)$payment->order_id
                 ],
                 'create_time' => $create_time ? $create_time->timestamp * 1000 : 0,
                 'perform_time' => $perform_time ? $perform_time->timestamp * 1000 : 0,
                 'cancel_time' => $cancel_time ? $cancel_time->timestamp * 1000 : 0,
-                'transaction' => (string)$transaction->id,
-                'state' => $transaction->payme_state,
-                'reason' => $transaction->payme_cancel_reason
+                'transaction' => (string)$payment->id,
+                'state' => $payment->payme_state,
+                'reason' => $payment->payme_cancel_reason
             ];
         });
 
@@ -347,19 +347,12 @@ class PaymeBillingService
             return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'order');
         }
 
-        // TODO pay only for unpaid and not completed orders
-        $order = Order::byUniqueId($request->params['account']['order_id'])->first();
-
+        $order = Order::byUniqueId($request->params['account']['order_id'])->unpaid()->inProgress()->first();
         if (!$order) {
             return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'order');
         }
 
-        if ($order->status != Order::STATUS_CREATED && $order->status != Order::STATUS_WAITING_PAY) {
-            return self::getErrorResponse(self::ERROR_COULD_NOT_PERFORM, 'order');
-        }
-
-        // TODO fix check
-        if ($request->params['amount'] != $order->amount) {
+        if ($request->params['amount'] > $order->balance()) {
             return self::getErrorResponse(self::ERROR_INVALID_AMOUNT, 'amount');
         }
 
