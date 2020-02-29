@@ -64,9 +64,4 @@ class PaymentController extends Controller
 
         return $payment;
     }
-
-    public function getPaymentMethods()
-    {
-        return Payment::getPaymentMethods();
-    }
 }
