@@ -134,7 +134,7 @@ class OrderController extends Controller
     {
         /** @var Order $order */
         $order = Order::with('order_delivery')->forDelivery()->findOrFail($id);
-        $delivery = $order->delivery;
+        $delivery = $order->order_delivery;
 
         if ($delivery->delivered) {
             return response()->json(['message' => 'Уже доставлено'], 400);
