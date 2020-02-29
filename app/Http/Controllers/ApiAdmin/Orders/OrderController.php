@@ -146,12 +146,6 @@ class OrderController extends Controller
         return $order;
     }
 
-    public function counter()
-    {
-        $total = Order::justCreated()->count();
-        return response()->json(compact('total'));
-    }
-
     public function destroy($id)
     {
         /** @var Order $order */
