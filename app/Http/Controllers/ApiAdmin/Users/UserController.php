@@ -39,9 +39,9 @@ class UserController extends Controller
 
         if ($q = $request->query('q')) {
             $usersQuery->where(function ($query) use ($q) {
-                $query->where('name', 'ilike', '%' . $q . '%')
-                    ->orWhere('phone', 'ilike', '%' . $q . '%')
-                    ->orWhere('email', 'ilike', '%' . $q . '%');
+                $query->where('name', 'ilike', "%{$q}%")
+                    ->orWhere('phone', 'ilike', "%{$q}%")
+                    ->orWhere('email', 'ilike', "%{$q}%");
             });
         }
 

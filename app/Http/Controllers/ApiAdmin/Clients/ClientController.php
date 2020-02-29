@@ -19,11 +19,11 @@ class ClientController extends Controller
 
         if ($q = $request->query('q')) {
             $clientQuery->where(function ($query) use ($q) {
-                $query->where('name', 'ilike', '%' . $q . '%')
-                    ->orWhere('surname', 'ilike', '%' . $q . '%')
-                    ->orWhere('patronymic', 'ilike', '%' . $q . '%')
-                    ->orWhere('phone', 'ilike', '%' . $q . '%')
-                    ->orWhere('email', 'ilike', '%' . $q . '%');
+                $query->where('name', 'ilike', "%{$q}%")
+                    ->orWhere('surname', 'ilike', "%{$q}%")
+                    ->orWhere('patronymic', 'ilike', "%{$q}%")
+                    ->orWhere('phone', 'ilike', "%{$q}%")
+                    ->orWhere('email', 'ilike', "%{$q}%");
             });
         }
 

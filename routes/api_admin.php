@@ -69,5 +69,6 @@ Route::namespace('Orders')
         Route::post('orders/{id}/complete_delivery', 'OrderController@completeDelivery');
 
         Route::get('payments', 'PaymentController@index');
+        Route::get('payment_methods', 'PaymentController@getPaymentMethods');
         Route::post('payments', 'PaymentController@store');
     });

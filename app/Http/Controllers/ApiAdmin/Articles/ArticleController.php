@@ -14,7 +14,7 @@ class ArticleController extends Controller
         $articleQuery = Article::latest();
 
         if ($q = $request->query('q')) {
-            $articleQuery->where('name', 'ilike', '%' . $q . '%');
+            $articleQuery->where('name', 'ilike', "%{$q}%");
         }
 
         if ($request->query('paginate') == true) {
