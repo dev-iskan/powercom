@@ -43,4 +43,9 @@ trait OrderStatusTrait
     {
         return $this->order_status_id == OrderSetting::statusCancelled()->id;
     }
+
+    public function scopeJustCreated($query)
+    {
+        return $query->where('order_status_id', OrderSetting::statusCreated()->id);
+    }
 }

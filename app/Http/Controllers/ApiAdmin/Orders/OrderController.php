@@ -8,7 +8,6 @@ use App\Http\Requests\Orders\UpdateOrderRequest;
 use App\Models\Orders\Order;
 use App\Models\Users\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -147,18 +146,10 @@ class OrderController extends Controller
         return $order;
     }
 
-    public function cancelDelivery($id)
+    public function counter()
     {
-        $order = Order::with('order_delivery')->forDelivery()->findOrFail($id);
-
-        DB::transaction(function () use ($order) {
-            $order->order_delivery->delete();
-
-            $order->delivery = false;
-            $order->save();
-        });
-
-        return response()->json(['message' => 'Доставка отменена']);
+        $total = Order::justCreated()->count();
+        return response()->json(compact('total'));
     }
 
     public function destroy($id)
