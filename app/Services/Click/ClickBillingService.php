@@ -3,7 +3,7 @@
 namespace App\Services\Click;
 
 use App\Models\Orders\Order;
-use App\Models\Orders\Transaction;
+use App\Models\Orders\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
@@ -38,53 +38,49 @@ class ClickBillingService
         if ($result['error'] === 0) {
             $order = Order::byUniqueId($request->merchant_trans_id)->first();
 
-            $transaction = new Transaction;
-            $transaction->amount = (int) ($request->amount * 100);
+            $payment = new Payment();
+            $payment->amount = (int) $request->amount;
 
-            $transaction->payment_method = 'click';
-            $transaction->click_time = now();
-            $transaction->click_trans_id = $request->click_trans_id;
-            $transaction->click_status = Transaction::STATUS_CREATED;
-            $transaction->order()->associate($order);
-            $confirm = $transaction->save();
+            $payment->payment_method = 'click';
+            $payment->click_time = now();
+            $payment->click_trans_id = $request->click_trans_id;
+            $payment->click_status = Payment::STATUS_CREATED;
+            $payment->order()->associate($order);
+            $payment->save();
 
-            if ($confirm) {
-                $result = array_merge($result, [
-                    'click_trans_id' => $request->click_trans_id,
-                    'merchant_trans_id' => $request->merchant_trans_id,
-                    'merchant_prepare_id' => (string) $transaction->id
-                ]);
-            } else {
-                $result = self::getErrorArray(self::ERROR_FAILED_UPDATE_USER);
-            }
+            $result = array_merge($result, [
+                'click_trans_id' => $request->click_trans_id,
+                'merchant_trans_id' => $request->merchant_trans_id,
+                'merchant_prepare_id' => (string) $payment->id
+            ]);
         }
         return $result;
     }
 
     public static function complete(Request $request)
     {
-        $transaction = Transaction::find($request->merchant_prepare_id);
+        $payment = Payment::find($request->merchant_prepare_id);
         $result = self::validateRequest($request);
         if ($request->error < 0 && !in_array($result['error'], [-4, -9])) {
-            $transaction->cancelClick();
-            $transaction->order->makeAvailable();
+            $payment->cancelClick();
             $result = self::getErrorArray(self::ERROR_TRANSACTION_CANCELLED);
         } elseif ($result['error'] === 0) {
 
-            $transaction->paid = true;
-            $confirm = $transaction->performClick();
+            $payment->paid = true;
+            $payment->paid_time = now();
+            $payment->performClick();
 
-            $transaction->order->acceptPayment($transaction);
-
-            if ($confirm) {
-                $result = array_merge($result, [
-                    'click_trans_id' => $request->click_trans_id,
-                    'merchant_trans_id' => $request->merchant_trans_id,
-                    'merchant_confirm_id' => (string) $transaction->id
-                ]);
-            } else {
-                $result = self::getErrorArray(self::ERROR_FAILED_UPDATE_USER);
+            $order = $payment->order;
+            if ($order->balance() == 0) {
+                $order->paid = true;
+                $order->save();
             }
+
+            $result = array_merge($result, [
+                'click_trans_id' => $request->click_trans_id,
+                'merchant_trans_id' => $request->merchant_trans_id,
+                'merchant_confirm_id' => (string) $payment->id
+            ]);
         }
         return $result;
     }
@@ -130,38 +126,38 @@ class ClickBillingService
             return self::getErrorArray(self::ERROR_ACTION_NOT_FOUND);
         }
 
-        $order = Order::byUniqueId($request->merchant_trans_id)->first();
+        $order = Order::byUniqueId($request->merchant_trans_id)->unpaid()->inProgress()->first();
         if (!$order) {
             return self::getErrorArray(self::ERROR_USER_NOT_FOUND);
         }
 
-        $amount = (int) ($request->amount * 100);
+        $amount = (int) $request->amount;
 
-        if ($amount != $order->amount) {
+        if ($amount > $order->balance()) {
             return self::getErrorArray(self::ERROR_INVALID_AMOUNT);
         }
 
         // check duplicating of transaction with click_trans_id
-        $transaction = Transaction::byClickId($request->click_trans_id)->first();
-        if ((int) $request->action === 0 && $transaction) {
+        $payment = Payment::byClickId($request->click_trans_id)->first();
+        if ((int) $request->action === 0 && $payment) {
             return self::getErrorArray(self::ERROR_IN_REQUEST_FROM_CLICK);
         }
 
         // find transaction by merchant_prepare_id
         if ((int) $request->action === 1) {
-            $transaction = Transaction::find($request->merchant_prepare_id);
-            if (!$transaction) {
+            $payment = Payment::find($request->merchant_prepare_id);
+            if (!$payment) {
                 return self::getErrorArray(self::ERROR_TRANSACTION_NOT_FOUND);
             }
 
-            if ($transaction && $transaction->click_status === Transaction::STATUS_COMPLETED) {
+            if ($payment && $payment->click_status === Payment::STATUS_COMPLETED) {
                 return self::getErrorArray(self::ERROR_ALREADY_PAID);
             }
 
-            if ($transaction && $transaction->click_status === Transaction::STATUS_CANCELLED) {
+            if ($payment && $payment->click_status === Payment::STATUS_CANCELLED) {
                 return self::getErrorArray(self::ERROR_TRANSACTION_CANCELLED);
             }
-            if (abs((float)($transaction->amount / 100) - (float)$request->amount) > 0.01) {
+            if (abs((float)($payment->amount / 100) - (float)$request->amount) > 0.01) {
                 return self::getErrorArray(self::ERROR_INVALID_AMOUNT);
             }
         }
