@@ -90,19 +90,6 @@ class PaymeBillingService
             return $order_or_error;
         }
 
-        // if order created or paid transaction already exists
-        $existed_payment = Payment::where('order_id', $order_or_error->id)
-            ->whereIn('payme_state', [Payment::STATE_CREATED, Payment::STATE_COMPLETED])
-            ->where('payme_receipt_id', '!=', $request->params['id'])
-            ->first();
-        if ($existed_payment) {
-            return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'time', [
-                'ru' => 'Заказ в ожидании оплаты',
-                'uz' => 'To`lovni kutish uchun buyurtma',
-                'en' => 'Order pending payment'
-            ]);
-        }
-
         // get transaction by payme_id
         $payment = Payment::byPaymeId($request->params['id'])->first();
         // if no transaction create new
@@ -113,7 +100,7 @@ class PaymeBillingService
             $payme_time = Carbon::createFromTimestamp($request->params['time'] / 1000);
 
             $payment = new Payment();
-            $payment->amount = $request->params['amount'];
+            $payment->amount = $request->params['amount'] / 100;
 
             $payment->payme_time = $payme_time;
             $payment->payment_method = 'payme';
@@ -161,11 +148,11 @@ class PaymeBillingService
         if ($payment->payme_state === Payment::STATE_CREATED) {
             if ($payment->isPaymeExpired()) {
                 $payment->cancelPayme(Payment::STATE_CANCELLED, Payment::REASON_CANCELLED_BY_TIMEOUT);
-                $payment->order->makeAvailable();
                 return self::getErrorResponse(self::ERROR_COULD_NOT_PERFORM, 'time');
             }
 
             $payment->paid = true;
+            $payment->paid_time = now();
             $payment->performPayme();
             $perform_time = $payment->payme_perform_time;
 
@@ -254,7 +241,7 @@ class PaymeBillingService
                 'id' => $request->id
             ];
         } elseif ($payment->payme_state == Payment::STATE_COMPLETED) {
-            if ($payment->order->isInProcess()) {
+            if ($payment->order->isInProgress()) {
 
                 $payment->paid = false;
                 $payment->cancelPayme(Payment::STATE_CANCELLED_AFTER_COMPLETE, (int)$request->params['reason']);
@@ -352,7 +339,7 @@ class PaymeBillingService
             return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'order');
         }
 
-        if ($request->params['amount'] > $order->balance()) {
+        if ($request->params['amount'] / 100 > $order->balance()) {
             return self::getErrorResponse(self::ERROR_INVALID_AMOUNT, 'amount');
         }
 
