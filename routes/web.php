@@ -9,12 +9,10 @@ Route::namespace('Front')->group(function () {
     Route::get('/article/{id}', 'FrontController@article')->name('article');
     Route::get('/signup', 'FrontController@signup')->name('signup');
     Route::get('/signin', 'FrontController@signin')->name('signin');
-    //  - phone confirmation
-    
+    Route::get('/verify', 'FrontController@verify')->name('verify');
     // - steps of process
     // - search result
     // - cart
-    
     
     // USER Dashboard routes
     // - profile

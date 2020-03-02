@@ -59,4 +59,9 @@ class FrontController extends Controller
     {
         return view('signup');
     }
+
+    public function verify()
+    {
+        return view('verify');
+    }
 }
