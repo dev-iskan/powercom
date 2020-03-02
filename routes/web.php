@@ -7,14 +7,14 @@ Route::namespace('Front')->group(function () {
     Route::get('/category/{id}', 'FrontController@category')->name('category');
     Route::get('/product/{id}', 'FrontController@product')->name('product');
     Route::get('/article/{id}', 'FrontController@article')->name('article');
+    Route::get('/signup', 'FrontController@signup')->name('signup');
+    Route::get('/signin', 'FrontController@signin')->name('signin');
+    //  - phone confirmation
     
     // - steps of process
     // - search result
     // - cart
     
-    // - signin
-    //  - phone confirmation
-    // - signup
     
     // USER Dashboard routes
     // - profile

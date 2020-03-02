@@ -49,4 +49,14 @@ class FrontController extends Controller
         $article = Article::findOrFail($id);
         return view('article', compact('article'));
     }
+
+    public function signin()
+    {
+        return view('signin');
+    }
+
+    public function signup()
+    {
+        return view('signup');
+    }
 }

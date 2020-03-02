@@ -11,7 +11,7 @@
         </a>
     </div>
 
-    {{-- <div class="level-right has-text-right">
+    <div class="navbar-end">
         <div class="buttons">
             <a href="{{ url('cart') }}" class="button is-white">
                 <span class="icon has-text-primary">
@@ -24,7 +24,7 @@
                 </span>
             </a>
         </div>
-    </div> --}}
+    </div>
 </nav>
 <hr style="margin: 0;"/>
 <nav id="catigories" class="navbar level box is-paddingless is-radiusless is-marginless">
