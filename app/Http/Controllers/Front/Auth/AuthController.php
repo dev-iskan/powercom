@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendSms;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -132,7 +133,7 @@ class AuthController extends Controller
     {
         if (config('app.env') == 'production') {
             $code = rand(1000, 9999);
-            // send sms
+            SendSms::dispatch($user->phone, 'Powercom.uz. Vash kod podverjdenia: '.$code);
         } else {
             $code = 1111;
         }
