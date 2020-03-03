@@ -3,6 +3,21 @@
         <div class="columns is-multiline">
             <div class="column">
                 <p>
+                    <strong>Информация</strong>
+                </p>
+                <br>
+                <a class="has-text-dark" href="{{ route('main') }}">Главная</a>
+                <br>
+                <a class="has-text-dark" href="{{ route('signin') }}">Вход</a>
+                <br>
+                <a class="has-text-dark" href="{{ route('signup') }}">Регистрация</a>
+                <br>
+                <a class="has-text-dark" href="{{ route('about') }}">О компании</a>
+                <br>
+                <a class="has-text-dark" href="{{ route('public-offer') }}">Публичная оферта</a>
+            </div>
+            <div class="column has-text-right-desktop">
+                <p>
                     <strong>Контакты</strong>
                 </p>
                 <br>
@@ -24,17 +39,6 @@
                     </span>
                     Узбекистан, г. Ташкент, ул. Олой, 1
                 </p>
-            </div>
-            <div class="column has-text-right-desktop">
-                <p>
-                    <strong>Информация</strong>
-                </p>
-                <br>
-                <a class="has-text-dark" href="{{ route('main') }}">Главная</a>
-                <br>
-                <a class="has-text-dark" href="{{ route('about') }}">О компании</a>
-                <br>
-                <a class="has-text-dark" href="{{ route('public-offer') }}">Публичная оферта</a>
             </div>
             <div class="column is-full">
                 <hr class="has-background-grey-lighter">

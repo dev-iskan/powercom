@@ -53,7 +53,8 @@
         </div>
     </div>
 </section>
-<section class="section">
+<hr>
+<section class="section pt-20">
     <div class="content">
         <div class="container">
             <h2 class="has-text-centered">О САЙТЕ</h1>
