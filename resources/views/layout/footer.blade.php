@@ -8,9 +8,9 @@
                 <br>
                 <a class="has-text-dark" href="{{ route('main') }}">Главная</a>
                 <br>
-                <a class="has-text-dark" href="{{ route('signin') }}">Вход</a>
+                <a class="has-text-dark" href="{{ route('login') }}">Вход</a>
                 <br>
-                <a class="has-text-dark" href="{{ route('signup') }}">Регистрация</a>
+                <a class="has-text-dark" href="{{ route('show_register') }}">Регистрация</a>
                 <br>
                 <a class="has-text-dark" href="{{ route('about') }}">О компании</a>
                 <br>

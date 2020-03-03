@@ -18,7 +18,7 @@
                     <i class="fas fa-shopping-cart"></i>
                 </span>
             </a>
-            <a href="{{ url('signin') }}" class="button is-white">
+            <a href="{{ route('login') }}" class="button is-white">
                 <span class="icon has-text-primary">
                     <i class="fas fa-user-circle"></i>
                 </span>

@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\EnsurePhoneIsVerified;
+use App\Http\Middleware\PhoneAlreadyVerified;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Airlock\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
@@ -64,6 +66,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'phone_verified' => EnsurePhoneIsVerified::class,
+        'phone_already_verified' => PhoneAlreadyVerified::class
     ];
 
     /**
