@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer has-background-light">
     <div class="container">
         <div class="columns is-multiline">
             <div class="column">
@@ -37,7 +37,7 @@
                 <a class="has-text-dark" href="{{ route('public-offer') }}">Публичная оферта</a>
             </div>
             <div class="column is-full">
-                <hr>
+                <hr class="has-background-grey-lighter">
             </div>
             <div class="column">
                 <p>

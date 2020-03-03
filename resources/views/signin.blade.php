@@ -7,11 +7,11 @@
 @endsection
 
 @section('body')
-<section class="section is-medium has-background-light">
+<section class="section is-medium ">
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-half-desktop">
-                <div class="card p-40">
+                <div class="card p-40 is-shadowless border">
                     <div class="card-header is-shadowless">
                         <p class="card-header-title is-size-4 pl-25">
                             Войти в Powercom

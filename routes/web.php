@@ -10,12 +10,13 @@ Route::namespace('Front')->group(function () {
     Route::get('/signup', 'FrontController@signup')->name('signup');
     Route::get('/signin', 'FrontController@signin')->name('signin');
     Route::get('/verify', 'FrontController@verify')->name('verify');
-    // - steps of process
-    // - search result
-    // - cart
+    Route::get('/cart', 'FrontController@cart')->name('cart');
+    Route::get('/search', 'FrontController@search')->name('search');
     
+    // - steps of process
     // USER Dashboard routes
-    // - profile
+    // - order
     // - orders
+    // - profile
     // - payments
 });

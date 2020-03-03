@@ -64,4 +64,16 @@ class FrontController extends Controller
     {
         return view('verify');
     }
+
+    public function cart()
+    {
+        $products = Product::with('categories', 'brand')->latest()->limit(8)->get();
+        return view('cart', compact('products'));
+    }
+
+    public function search()
+    {
+        $products = Product::with('categories', 'brand')->latest()->limit(8)->get();
+        return view('search', compact('products'));
+    }
 }

@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card is-shadowless border">
     <div class="card-image">
         <figure class="image is-1by1">
             @if(count($product->images) > 0)

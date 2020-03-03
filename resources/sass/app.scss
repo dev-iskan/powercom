@@ -13,12 +13,24 @@ $primary: #0064C3;
     }
 }
 
+.border {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 .product-name {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+  }
+  
+.cart-product-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
 }
 
 .swiper-container.hero {
@@ -37,9 +49,9 @@ $primary: #0064C3;
     transform: translate(-50%, -50%);
 }
 
-.border {
-    border: 1px solid rgba(0, 0, 0, 0.24);
-}
+// .border {
+//     border: 1px solid rgba(0, 0, 0, 0.24);
+// }
 
 @media screen and (max-width: $desktop) {
     #catigories {
