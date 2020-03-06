@@ -4,25 +4,27 @@
             <img src="{{ URL::asset('/image/logo.svg') }}" alt="Powercom.uz">
         </a>
         
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar" onclick="toggleSidebar()">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
         </a>
     </div>
 
-    <div class="navbar-end">
-        <div class="buttons">
-            <a href="{{ url('cart') }}" class="button is-white">
-                <span class="icon has-text-primary">
-                    <i class="fas fa-shopping-cart"></i>
-                </span>
-            </a>
-            <a href="{{ route('login') }}" class="button is-white">
-                <span class="icon has-text-primary">
-                    <i class="fas fa-user-circle"></i>
-                </span>
-            </a>
+    <div id="navbar" class="navbar-menu">
+        <div class="navbar-end">
+            <div class="buttons">
+                <a href="{{ url('cart') }}" class="button is-white">
+                    <span class="icon has-text-primary">
+                        <i class="fas fa-shopping-cart"></i>
+                    </span>
+                </a>
+                <a href="{{ route('login') }}" class="button is-white">
+                    <span class="icon has-text-primary">
+                        <i class="fas fa-user-circle"></i>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
 </nav>
@@ -50,3 +52,41 @@
         </div>
     @endforeach
 </nav>
+<div class="sidebar hidden has-background-white p-20">
+    <div class="has-text-right">
+        <button class="button is-white" onclick="toggleSidebar()">
+            <span class="icon has-text-grey">
+                <i class="fas fa-times"></i>
+            </span>
+        </button>
+    </div>
+    <aside class="menu">
+        <p class="menu-label">
+            Общая
+        </p>
+        <ul class="menu-list">
+            <li><a href="{{ route('main') }}">Главная</a></li>
+            <li><a href="{{ route('cart') }}">Корзина</a></li>
+            <li><a href="{{ route('login') }}">Личный кабинет</a></li>
+        </ul>
+        <p class="menu-label">
+            Категории
+        </p>
+        <ul class="menu-list">
+            @foreach ($categories as $category)
+                @if (count($category->children))
+                    <li>
+                        <a href="{{ route('category', ['id' => $category->id]) }}">{{ $category->name }}</a>
+                        <ul>
+                            @foreach($category->children as $child)                                
+                                <li><a href="{{ route('category', ['id' => $child->id]) }}">{{ $child->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @else
+                    <li><a href="{{ route('category', ['id' => $category->id]) }}">{{ $category->name }}</a></li>
+                @endif
+            @endforeach
+        </ul>
+      </aside>
+</div>
