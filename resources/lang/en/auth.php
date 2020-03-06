@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
+    'failed' => 'Неверный номер телефона или пароль.',
+    'unregistered' => 'Номер телефона не зарегистрирован.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

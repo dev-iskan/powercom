@@ -25,9 +25,19 @@ class AuthController extends Controller
             'phone' => 'required|string',
             'password' => 'required|string',
             'remember' => 'nullable'
+        ], [
+            'required' => 'Поле обязательно для заполнения.',
         ]);
 
-        if (!User::where('phone', $request->phone)->whereHas('client')->first()) {
+        $user = User::where('phone', $request->phone)->whereHas('client')->first();
+
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'phone' => [trans('auth.unregistered')],
+            ]);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'phone' => [trans('auth.failed')],
             ]);
@@ -80,7 +90,7 @@ class AuthController extends Controller
 
     public function showVerifyForm()
     {
-        dump(Cache::get('verification_998909889322'));
+        // dump(Cache::get('verification_998909889322'));
         return view('auth.verify');
     }
 
@@ -88,6 +98,9 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'code' => 'required|digits:4'
+        ], [
+            'required' => 'Поле обязательно для заполнения.',
+            'digits' => 'Код должен быть :digits цифры.',
         ]);
 
         $user = auth()->user();

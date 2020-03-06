@@ -11,9 +11,9 @@
         <div class="container">
             <div class="columns is-centered">
                 <div class="column is-half-desktop">
-                    <div class="card p-40">
+                    <div class="card p-20">
                         <div class="card-header is-shadowless">
-                            <p class="card-header-title is-size-4 pl-25">
+                            <p class="card-header-title is-size-5 pl-25">
                                 Проверка номера телефона
                             </p>
                         </div>
@@ -24,15 +24,20 @@
                                     <label class="label">Код подтверждения</label>
                                     <div class="control">
                                         <input class="input" name="code" type="number"
-                                               placeholder="Введите код подтверждения">
+                                               placeholder="Введите код подтверждения"
+                                               required>
                                     </div>
+                                    @if($errors->has('code'))
+                                        <p class="help is-danger">{{ $errors->first('code') }}</p>
+                                    @endif
                                 </div>
 
-                                <div class="pt-40">
-                                    <button type="submit" class="button is-fullwidth is-medium is-primary">Подтвердить
+                                <div class="mt-20">
+                                    <button type="submit" class="button is-fullwidth is-primary">Подтвердить
                                     </button>
-                                    <a href="{{route('send_code')}}" class="button is-fullwidth is-text mt-5">Повторно
-                                        отправить код еще раз</a>
+                                    <a href="{{route('send_code')}}" class="button is-fullwidth is-text mt-5">
+                                        Повторно отправить код еще раз
+                                    </a>
                                 </div>
                             </form>
                         </div>
