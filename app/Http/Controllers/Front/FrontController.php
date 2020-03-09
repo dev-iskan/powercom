@@ -50,27 +50,6 @@ class FrontController extends Controller
         return view('article', compact('article'));
     }
 
-    public function signin()
-    {
-        return view('signin');
-    }
-
-    public function signup()
-    {
-        return view('signup');
-    }
-
-    public function verify()
-    {
-        return view('verify');
-    }
-
-    public function cart()
-    {
-        $products = Product::with('categories', 'brand')->latest()->limit(8)->get();
-        return view('cart', compact('products'));
-    }
-
     public function search()
     {
         $products = Product::with('categories', 'brand')->latest()->limit(8)->get();

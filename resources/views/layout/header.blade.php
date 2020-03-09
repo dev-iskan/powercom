@@ -1,6 +1,6 @@
 <nav class="navbar is-spaced" role="navigation" aria-label="main navigation" style="margin-bottom: 0;">
     <div class="navbar-brand">
-        <a class="navbar-item" href="{{ url('main') }}">
+        <a class="navbar-item" href="{{ route('main') }}">
             <img src="{{ URL::asset('/image/logo.svg') }}" alt="Powercom.uz">
         </a>
         
@@ -14,7 +14,7 @@
     <div id="navbar" class="navbar-menu">
         <div class="navbar-end">
             <div class="buttons">
-                <a href="{{ url('cart') }}" class="button is-white">
+                <a href="{{ route('cart.index') }}" class="button is-white">
                     <span class="icon has-text-primary">
                         <i class="fas fa-shopping-cart"></i>
                     </span>
@@ -66,7 +66,7 @@
         </p>
         <ul class="menu-list">
             <li><a href="{{ route('main') }}">Главная</a></li>
-            <li><a href="{{ route('cart') }}">Корзина</a></li>
+            <li><a href="{{ route('cart.index') }}">Корзина</a></li>
             <li><a href="{{ route('login') }}">Личный кабинет</a></li>
         </ul>
         <p class="menu-label">
