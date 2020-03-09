@@ -14,6 +14,9 @@ Route::namespace('Settings')
     ->group(function () {
         Route::post('get_and_save_token', 'SmsController@getAndSaveToken');
         Route::post('send_sms', 'SmsController@sendSms');
+
+        Route::get('get_telegram_updates', 'TelegramController@getUpdates');
+        Route::post('send_message', 'TelegramController@sendMessage');
     });
 
 Route::namespace('Users')

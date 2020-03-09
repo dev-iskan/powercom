@@ -13,4 +13,9 @@ return [
         'service_id' => env('CLICK_BILLING_SERVICE_ID'),
         'user_id' => env('CLICK_BILLING_MERCHANT_USER_ID'),
     ],
+    'telegram' => [
+        'url' => env('TELEGRAM_API_URL'),
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'chat_id' => env('TELEGRAM_GROUP_CHAT_ID')
+    ]
 ];
