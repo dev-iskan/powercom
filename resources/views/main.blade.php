@@ -56,6 +56,24 @@
                         <article class="media">
                             <figure class="media-left">
                                 <span class="icon">
+                                    <i class="fas fa-lg fa-map"></i>
+                                </span>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>Указываете адрес доставки</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="card is-shadowless border">
+                    <div class="card-content">
+                        <article class="media">
+                            <figure class="media-left">
+                                <span class="icon">
                                     <i class="fas fa-lg fa-credit-card"></i>
                                 </span>
                             </figure>
@@ -74,30 +92,12 @@
                         <article class="media">
                             <figure class="media-left">
                                 <span class="icon">
-                                    <i class="fas fa-lg fa-truck"></i>
-                                </span>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>Отправляем в точки выдачи</p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-one-quarter">
-                <div class="card is-shadowless border">
-                    <div class="card-content">
-                        <article class="media">
-                            <figure class="media-left">
-                                <span class="icon">
                                     <i class="fas fa-lg fa-flag-checkered"></i>
                                 </span>
                             </figure>
                             <div class="media-content">
                                 <div class="content">
-                                    <p>И вы его забераете!</p>
+                                    <p>И мы доставим ваш заказ!</p>
                                 </div>
                             </div>
                         </article>
