@@ -32,4 +32,5 @@ Route::namespace('Front')->group(function () {
     Route::get('/product/{id}', 'FrontController@product')->name('product');
     Route::get('/article/{id}', 'FrontController@article')->name('article');
     Route::get('/search', 'FrontController@search')->name('search');
+    Route::get('/home', 'FrontController@home')->name('home');
 });
