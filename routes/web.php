@@ -3,12 +3,12 @@
 Route::namespace('Front')->group(function () {
 
     Route::namespace('Auth')->group(function () {
-        Route::get('register', 'AuthController@showRegistrationForm')->name('show_register');
+        Route::get('register', 'AuthController@showRegistrationForm')->name('show_register')->middleware('guest');
         Route::get('login', 'AuthController@showLoginForm')->name('login')->middleware('guest');
         Route::get('verify', 'AuthController@showVerifyForm')->name('show_verify')->middleware('auth', 'phone_already_verified');
 
         Route::post('login', 'AuthController@login')->name('request_login')->middleware('guest');
-        Route::post('register', 'AuthController@register')->name('register');
+        Route::post('register', 'AuthController@register')->name('register')->middleware('guest');
         Route::get('send_code', 'AuthController@sendCode')->name('send_code')->middleware('auth', 'phone_already_verified');
         Route::post('verify', 'AuthController@verify')->name('verify')->middleware('auth', 'phone_already_verified');
         Route::get('logout', 'AuthController@logout')->name('logout')->middleware('auth');
@@ -17,6 +17,7 @@ Route::namespace('Front')->group(function () {
     Route::namespace('Cart')->group(function () {
         Route::get('cart', 'CartController@index')->name('cart.index');
         Route::get('cart/store', 'CartController@store')->name('cart.store');
+        Route::get('cart/decrement', 'CartController@decrement')->name('cart.decrement');
         Route::get('cart/destroy', 'CartController@destroy')->name('cart.destroy');
     });
 

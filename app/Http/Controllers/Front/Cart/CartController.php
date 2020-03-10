@@ -26,11 +26,28 @@ class CartController extends Controller
         ]);
 
         $product = Product::with('images')->findOrFail($request->product_id);
-
+        if ($product->quantity < 1) {
+            redirect()->route('cart.index')->with('message', 'Невозможно добавить товар');
+        }
         $previous_cart = session()->get('cart');
 
         $cart = new Cart($previous_cart);
         $cart->add($request->product_id, $product);
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index');
+    }
+
+    public function decrement(Request $request)
+    {
+        $this->validate($request, [
+            'product_id' => 'required|numeric'
+        ]);
+
+        $previous_cart = session()->get('cart');
+        $cart = new Cart($previous_cart);
+        $cart->decrement($request->product_id);
+
         session()->put('cart', $cart);
 
         return redirect()->route('cart.index');
