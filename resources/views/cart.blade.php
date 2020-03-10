@@ -46,13 +46,13 @@
                                                     <div class="buttons has-addons">
                                                         <button class="button">-</button>
                                                         <button class="button" disabled>{{ $cart_item['quantity']}}</button>
-                                                        <button class="button">+</button>
+                                                        <a class="button" href="{{ route('cart.store', ['product_id' => $cart_item['data']->id]) }}">+</a>
                                                     </div>
                                                 </div>
                                             </nav>
                                         </div>
                                         <div class="media-right">
-                                            <button class="delete"></button>
+                                            <a class="delete" href="{{ route('cart.destroy', ['product_id' => $cart_item['data']->id]) }}"></a>
                                         </div>
                                     </article>
                                 </div>
