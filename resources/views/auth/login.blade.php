@@ -38,7 +38,7 @@
                                     <label class="label">Пароль</label>
                                     <div class="control has-icons-left">
                                         <input required class="input" name="password" type="password"
-                                        placeholder="Введите пароль" minlength="8">
+                                        placeholder="Введите пароль" minlength="6">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-lock"></i>
                                         </span>

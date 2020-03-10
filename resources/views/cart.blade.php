@@ -118,25 +118,42 @@
                                 </tbody>
                             </table>
                             <div class="has-text-weight-bold"></div>
-                            Выберите тип доставки
-                            <div class="select">
-                                <select>
-                                    <option>С доставкой</option>
-                                    <option>Без доставки</option>
-                                </select>
-                            </div>
-                            <div class="control mt-20">
-                                <input class="input" type="text" placeholder="Аддрес доставки">
-                            </div>
-                            <div class="control mt-20">
-                                <input class="input" type="text" placeholder="Ф.И.О. заказчика">
-                            </div>
-                            <div class="control mt-20">
-                                <input class="input" type="tel" placeholder="Телефон номер заказчика">
-                            </div>
-                            <button class="button is-primary is-fullwidth mt-20">
-                                Оформить заказ
-                            </button>
+                            <form action="{{route('orders.store')}}" method="POST">
+                                @csrf
+                                <label for="">Выберите тип доставки</label>
+                                <div class="select">
+                                    <select name="delivery">
+                                        <option value="1" selecteds>С доставкой</option>
+                                        <option value="0">Без доставки</option>
+                                    </select>
+                                </div>
+                                <div class="control mt-20">
+                                    <input class="input" type="text" name="full_name"
+                                           value="{{old('full_name') ?? auth()->user()->client->full_name}}"
+                                           placeholder="Ф.И.О. заказчика">
+                                    @if($errors->has('full_name'))
+                                        <p class="help is-danger">{{$errors->get('full_name')[0]}}</p>
+                                    @endif
+                                </div>
+                                <div class="control mt-20">
+                                    <input class="input" type="tel" name="phone"
+                                           value="{{old('phone') ?? auth()->user()->client->phone}}"
+                                           placeholder="Телефон номер заказчика">
+                                    @if($errors->has('phone'))
+                                        <p class="help is-danger">{{$errors->get('phone')[0]}}</p>
+                                    @endif
+                                </div>
+                                <div class="control mt-20">
+                                    <input class="input" type="text" name="address" value="{{old('address')}}"
+                                           placeholder="Аддрес доставки">
+                                    @if($errors->has('address'))
+                                        <p class="help is-danger">{{$errors->get('address')[0]}}</p>
+                                    @endif
+                                </div>
+                                <button class="button is-primary is-fullwidth mt-20">
+                                    Оформить заказ
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -15,9 +15,13 @@ Route::namespace('Front')->group(function () {
     });
 
     Route::namespace('Cart')->group(function () {
-        Route::get('/cart', 'CartController@index')->name('cart.index');
+        Route::get('cart', 'CartController@index')->name('cart.index');
         Route::get('cart/store', 'CartController@store')->name('cart.store');
         Route::get('cart/destroy', 'CartController@destroy')->name('cart.destroy');
+    });
+
+    Route::namespace('Orders')->group(function () {
+        Route::post('orders', 'OrderController@store')->name('orders.store');
     });
 
     Route::get('/', 'FrontController@main')->name('main'); // copy and paste
@@ -27,11 +31,4 @@ Route::namespace('Front')->group(function () {
     Route::get('/product/{id}', 'FrontController@product')->name('product');
     Route::get('/article/{id}', 'FrontController@article')->name('article');
     Route::get('/search', 'FrontController@search')->name('search');
-
-    // - steps of process
-    // USER Dashboard routes
-    // - order
-    // - orders
-    // - profile
-    // - payments
 });

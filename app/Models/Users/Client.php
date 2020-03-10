@@ -24,4 +24,9 @@ class Client extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name.' '.$this->surname.' '.$this->patronymic;
+    }
 }
