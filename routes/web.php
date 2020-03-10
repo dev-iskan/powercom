@@ -41,10 +41,16 @@ Route::namespace('Front')->group(function () {
             Route::get('products/{id}', 'ProductController@show')->name('product.show');
         });
 
+    Route::namespace('Profile')
+        ->middleware('auth', 'phone_verified')
+        ->group(function () {
+            Route::get('home', 'ProfileController@index')->name('home');
+        });
+
+
     Route::get('/', 'FrontController@main')->name('main'); // copy and paste
-    Route::get('/about', 'FrontController@about')->name('about');
-    Route::get('/public-offer', 'FrontController@publicOffer')->name('public-offer');
-    Route::get('/article/{id}', 'FrontController@article')->name('article.show');
-    Route::get('/search', 'FrontController@search')->name('search');
-    Route::get('/home', 'FrontController@home')->name('home');
+    Route::get('about', 'FrontController@about')->name('about');
+    Route::get('public-offer', 'FrontController@publicOffer')->name('public-offer');
+    Route::get('article/{id}', 'FrontController@article')->name('article.show');
+    Route::get('search', 'FrontController@search')->name('search');
 });

@@ -38,9 +38,4 @@ class FrontController extends Controller
         $products = Product::with('categories', 'brand')->latest()->limit(8)->get();
         return view('search', compact('products'));
     }
-
-    public function home()
-    {
-        return view('user.index');
-    }
 }
