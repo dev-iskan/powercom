@@ -4,12 +4,13 @@ namespace App\Services;
 
 class TelegramMessages
 {
-    public static function notifyNewOrder()
+    public static function notifyNewOrder($full_name, $phone, $address, $url)
     {
         $text = "🔥 Новый заказ 🔥\n "
-            . $client->full_name . " \n "
-            . $client->phone . " \n "
-            . "https://crm.alifshop.uz/#/applications/" . $application->id;
+            . $full_name . " \n "
+            . '+' . $phone . " \n "
+            . $address . " \n "
+            . $url;
         return $text;
     }
 }

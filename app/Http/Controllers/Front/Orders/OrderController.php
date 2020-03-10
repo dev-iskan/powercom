@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Front\Orders;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendTelegramNotification;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderItem;
 use App\Services\Cart;
+use App\Services\TelegramMessages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +31,7 @@ class OrderController extends Controller
 
         $client = auth()->user()->client;
 
-        DB::transaction(function () use ($client, $request, $cart) {
+        $order = DB::transaction(function () use ($client, $request, $cart) {
             $order = new Order();
             $order->client_id = $client->id;
             $order->setCreatedStatus();
@@ -50,10 +52,22 @@ class OrderController extends Controller
 
             $order->setInProgressStatus();
             $order->updateAmount();
+
+            return $order;
         });
+
+        if (config('app.env') == 'production') {
+            $message = TelegramMessages::notifyNewOrder(
+                $request->full_name,
+                $request->phone,
+                $request->address,
+                'https://powercom.uz/admin/' . $order->id
+            );
+            SendTelegramNotification::dispatch($message);
+        }
 
         session()->put('cart', new Cart(null));
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Заказ успешно оформлен');
     }
 }

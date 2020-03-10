@@ -14,7 +14,8 @@ class CreateBaseSettingsTable extends Migration
     public function up()
     {
         Schema::create('base_settings', function (Blueprint $table) {
-            $table->text('eskiz_token');
+            $table->text('eskiz_token')->nullable();
+            $table->unsignedBigInteger('delivery_price')->nullable();
         });
     }
 

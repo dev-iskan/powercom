@@ -14,14 +14,18 @@ Route::namespace('Front')->group(function () {
         Route::get('logout', 'AuthController@logout')->name('logout')->middleware('auth');
     });
 
-    Route::namespace('Cart')->group(function () {
+    Route::namespace('Cart')
+        ->middleware('auth', 'phone_verified')
+        ->group(function () {
         Route::get('cart', 'CartController@index')->name('cart.index');
         Route::get('cart/store', 'CartController@store')->name('cart.store');
         Route::get('cart/decrement', 'CartController@decrement')->name('cart.decrement');
         Route::get('cart/destroy', 'CartController@destroy')->name('cart.destroy');
     });
 
-    Route::namespace('Orders')->group(function () {
+    Route::namespace('Orders')
+        ->middleware('auth', 'phone_verified')
+        ->group(function () {
         Route::post('orders', 'OrderController@store')->name('orders.store');
     });
 

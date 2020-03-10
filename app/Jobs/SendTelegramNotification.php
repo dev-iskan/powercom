@@ -16,7 +16,7 @@ class SendTelegramNotification implements ShouldQueue
     private $text;
     private $options;
 
-    public function __construct($text, $options)
+    public function __construct($text, $options = [])
     {
         $this->text = $text;
         $this->options = $options;

@@ -19,7 +19,7 @@ class CreateOrderDeliveriesTable extends Migration
             $table->string('full_name');
             $table->string('phone');
             $table->string('address');
-            $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('price')->nullable();
             $table->boolean('delivered')->default(false);
             $table->timestamp('delivered_at')->nullable();
 
