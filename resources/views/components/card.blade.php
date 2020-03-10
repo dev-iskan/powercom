@@ -26,10 +26,11 @@
                 <i class="fas fa-book-open"></i>
             </span>
         </a>
-        <div class="card-footer-item button is-white" style="height: 100%">
+        <a class="card-footer-item button is-white" style="height: 100%"
+            href="{{ route('cart.store', ['product_id' => $product->id]) }}">
             <span class="icon has-text-grey">
                 <i class="fas fa-shopping-cart"></i>
             </span>
-        </div>
+        </a>
     </footer>
 </div>

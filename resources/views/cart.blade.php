@@ -45,7 +45,7 @@
                                                 <div class="level-left">
                                                     <div class="buttons has-addons">
                                                         <button class="button">-</button>
-                                                        <button class="button" disabled>10</button>
+                                                        <button class="button" disabled>{{ $cart_item['quantity']}}</button>
                                                         <button class="button">+</button>
                                                     </div>
                                                 </div>

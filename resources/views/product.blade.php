@@ -50,9 +50,10 @@
                     {{ number_format($product->price, 0) }} сум
                 </p>
                 <br>
-                <button class="button is-primary is-fullwidth has-text-white">
+                <a class="button is-primary is-fullwidth has-text-white"
+                    href="{{ route('cart.store', ['product_id' => $product->id]) }}">
                     Добавить в карзину
-                </button>
+                </a>
             </div>
             <div class="column is-two-third">
                 <p>
