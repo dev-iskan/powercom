@@ -11,7 +11,6 @@ class ProfileController extends Controller
     {
         $client = auth()->user()->client;
         $orders = $client->orders()->with('status', 'items.product', 'order_delivery', 'payments')->get();
-        dd($client, $orders);
         return view('user.index', compact('client', 'orders'));
     }
 }

@@ -13,7 +13,6 @@
     <script src="{{ URL::asset('/js/app.js') }}"></script>
 </head>
 <body>
-@dump(session()->all())
 @include('layout.header')
 @yield('body')
 @include('layout.footer')
