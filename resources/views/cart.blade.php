@@ -122,7 +122,7 @@
                                 @csrf
                                 <label for="">Выберите тип доставки</label>
                                 <div class="select">
-                                    <select name="delivery">
+                                    <select name="delivery" onchange="changeDelivery(this)">
                                         <option value="1" selecteds>С доставкой</option>
                                         <option value="0">Без доставки</option>
                                     </select>
@@ -144,7 +144,7 @@
                                     @endif
                                 </div>
                                 <div class="control mt-20">
-                                    <input class="input" type="text" name="address" value="{{old('address')}}"
+                                    <input id="address" class="input" type="text" name="address" value="{{old('address')}}"
                                            placeholder="Аддрес доставки">
                                     @if($errors->has('address'))
                                         <p class="help is-danger">{{$errors->get('address')[0]}}</p>
@@ -160,4 +160,17 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('script')
+<script>
+    function changeDelivery(e) {
+        const input = document.getElementById('address');
+        if (e.value === '1') {
+            input.classList.remove('hidden');
+        } else {
+            input.classList.add('hidden');
+        }
+    }
+</script>
 @endsection
