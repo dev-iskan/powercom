@@ -12,11 +12,9 @@
             <div class="columns is-centered">
                 <div class="column is-one-third-desktop">
                     <div class="card p-20 is-shadowless border">
-                        <div class="card-header is-shadowless">
-                            <p class="card-header-title is-size-5 pl-25">
-                                Войти в Powercom
-                            </p>
-                        </div>
+                        <figure class="has-text-centered mt-20">
+                            <img src="{{ URL::asset('/image/logo.svg') }}" style="width: 160px;" alt="Powercom.uz">
+                        </figure>
                         <div class="card-content">
                             <form action="{{route('request_login')}}" method="POST">
                                 @csrf
