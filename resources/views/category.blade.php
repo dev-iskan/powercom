@@ -21,7 +21,7 @@
                         <strong>Родительская категория</strong>
                     </p>
                     <br>
-                    <a class="navbar-item has-text-dark" href="{{ route('category', ['id' => $category->parent->id]) }}">
+                    <a class="navbar-item has-text-dark" href="{{ route('category.show', ['id' => $category->parent->id]) }}">
                         <p>
                             <span class="icon">
                                 <i class="fas fa-angle-left"></i>
@@ -38,7 +38,7 @@
                     </p>
                     <br>
                     @foreach ($category->children as $child)
-                        <a class="navbar-item has-text-dark" href="{{ route('category', ['id' => $child->id]) }}">
+                        <a class="navbar-item has-text-dark" href="{{ route('category.show', ['id' => $child->id]) }}">
                             <p>
                                 <span class="icon">
                                     <i class="fas fa-angle-right"></i>

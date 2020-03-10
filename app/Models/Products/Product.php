@@ -47,4 +47,9 @@ class Product extends Model implements Sortable
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
 }

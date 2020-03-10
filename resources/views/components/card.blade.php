@@ -1,4 +1,4 @@
-<a class="has-text-dark" href="{{ route('product', ['id' => $product->id]) }}">
+<a class="has-text-dark" href="{{ route('product.show', ['id' => $product->id]) }}">
     <div class="card product-card is-shadowless border">
         <div class="card-image">
             <figure class="image is-1by1">

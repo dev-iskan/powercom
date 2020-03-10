@@ -27,23 +27,6 @@ class FrontController extends Controller
         return view('public-offer');
     }
 
-    public function category($id)
-    {
-        $category = Category::findOrFail($id);
-        $products = Product::with('categories', 'brand')->latest()->get();
-        if ($category) {
-            $category->children();
-            $category->parent();
-        }
-        return view('category', compact('category', 'products'));
-    }
-
-    public function product($id)
-    {
-        $product = Product::with('categories', 'brand', 'files')->findOrFail($id);
-        return view('product', compact('product'));
-    }
-
     public function article($id)
     {
         $article = Article::findOrFail($id);

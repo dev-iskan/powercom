@@ -33,7 +33,7 @@
     @foreach ($categories as $category)
         <div class="level-item">
             <div class="navbar-item has-dropdown is-hoverable is-mega" style="height: 100%;">
-            <a href="{{ route('category', ['id' => $category->id]) }}" class="navbar-item has-text-black">{{ $category->name }}</a>
+            <a href="{{ route('category.show', ['id' => $category->id]) }}" class="navbar-item has-text-black">{{ $category->name }}</a>
                 @if (count($category->children))
                 <div class="navbar-dropdown">
                     <div class="container" style="padding: 1em;">
@@ -42,7 +42,7 @@
                                 <h1 class="title is-6">{{ $category->name }}</h1>
                             </div>
                             @foreach ($category->children as $child)
-                                <a class="navbar-item column is-one-third" href="{{ route('category', ['id' => $child->id]) }}">{{ $child->name }}</a>
+                                <a class="navbar-item column is-one-third" href="{{ route('category.show', ['id' => $child->id]) }}">{{ $child->name }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -76,15 +76,15 @@
             @foreach ($categories as $category)
                 @if (count($category->children))
                     <li>
-                        <a href="{{ route('category', ['id' => $category->id]) }}">{{ $category->name }}</a>
+                        <a href="{{ route('category.show', ['id' => $category->id]) }}">{{ $category->name }}</a>
                         <ul>
                             @foreach($category->children as $child)                                
-                                <li><a href="{{ route('category', ['id' => $child->id]) }}">{{ $child->name }}</a></li>
+                                <li><a href="{{ route('category.show', ['id' => $child->id]) }}">{{ $child->name }}</a></li>
                             @endforeach
                         </ul>
                     </li>
                 @else
-                    <li><a href="{{ route('category', ['id' => $category->id]) }}">{{ $category->name }}</a></li>
+                    <li><a href="{{ route('category.show', ['id' => $category->id]) }}">{{ $category->name }}</a></li>
                 @endif
             @endforeach
         </ul>
