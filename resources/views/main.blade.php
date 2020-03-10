@@ -28,6 +28,86 @@
     <div class="swiper-pagination"></div>
 </div>
 <section class="section">
+    <h3 class="is-size-4 has-text-weight-bold has-text-centered">КАК ЗАКАЗАТЬ?</h3>
+    <br>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-one-quarter">
+                <div class="card is-shadowless border">
+                    <div class="card-content">
+                        <article class="media">
+                            <figure class="media-left">
+                                <span class="icon">
+                                    <i class="fas fa-lg fa-sync"></i>
+                                </span>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>Выбираете товар</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="card is-shadowless border">
+                    <div class="card-content">
+                        <article class="media">
+                            <figure class="media-left">
+                                <span class="icon">
+                                    <i class="fas fa-lg fa-credit-card"></i>
+                                </span>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>Производите оплату</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="card is-shadowless border">
+                    <div class="card-content">
+                        <article class="media">
+                            <figure class="media-left">
+                                <span class="icon">
+                                    <i class="fas fa-lg fa-truck"></i>
+                                </span>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>Отправляем в точки выдачи</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="card is-shadowless border">
+                    <div class="card-content">
+                        <article class="media">
+                            <figure class="media-left">
+                                <span class="icon">
+                                    <i class="fas fa-lg fa-flag-checkered"></i>
+                                </span>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>И вы его забераете!</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section">
     <h3 class="is-size-4 has-text-weight-bold has-text-centered">НОВЫЕ ТОВАРЫ</h3>
     <br>
     <div class="container">
