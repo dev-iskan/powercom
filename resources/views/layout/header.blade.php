@@ -3,8 +3,9 @@
         <a class="navbar-item" href="{{ route('main') }}">
             <img src="{{ URL::asset('/image/logo.svg') }}" alt="Powercom.uz">
         </a>
-        
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar" onclick="toggleSidebar()">
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar"
+           onclick="toggleSidebar()">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -33,20 +34,22 @@
     @foreach ($categories as $category)
         <div class="level-item">
             <div class="navbar-item has-dropdown is-hoverable is-mega" style="height: 100%;">
-            <a href="{{ route('category.show', ['id' => $category->id]) }}" class="navbar-item has-text-black">{{ $category->name }}</a>
+                <a href="{{ route('category.show', ['id' => $category->id]) }}"
+                   class="navbar-item has-text-black">{{ $category->name }}</a>
                 @if (count($category->children))
-                <div class="navbar-dropdown">
-                    <div class="container" style="padding: 1em;">
-                        <div class="columns is-multiline">
-                            <div class="column is-full">
-                                <h1 class="title is-6">{{ $category->name }}</h1>
+                    <div class="navbar-dropdown">
+                        <div class="container" style="padding: 1em;">
+                            <div class="columns is-multiline">
+                                <div class="column is-full">
+                                    <h1 class="title is-6">{{ $category->name }}</h1>
+                                </div>
+                                @foreach ($category->children as $child)
+                                    <a class="navbar-item column is-one-third"
+                                       href="{{ route('category.show', ['id' => $child->id]) }}">{{ $child->name }}</a>
+                                @endforeach
                             </div>
-                            @foreach ($category->children as $child)
-                                <a class="navbar-item column is-one-third" href="{{ route('category.show', ['id' => $child->id]) }}">{{ $child->name }}</a>
-                            @endforeach
                         </div>
                     </div>
-                </div>
                 @endif
             </div>
         </div>
@@ -78,8 +81,9 @@
                     <li>
                         <a href="{{ route('category.show', ['id' => $category->id]) }}">{{ $category->name }}</a>
                         <ul>
-                            @foreach($category->children as $child)                                
-                                <li><a href="{{ route('category.show', ['id' => $child->id]) }}">{{ $child->name }}</a></li>
+                            @foreach($category->children as $child)
+                                <li><a href="{{ route('category.show', ['id' => $child->id]) }}">{{ $child->name }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </li>
@@ -88,5 +92,5 @@
                 @endif
             @endforeach
         </ul>
-      </aside>
+    </aside>
 </div>

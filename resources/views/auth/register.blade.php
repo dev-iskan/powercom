@@ -29,7 +29,8 @@
                                 <div class="field">
                                     <label class="label">Фамилия</label>
                                     <div class="control">
-                                        <input required class="input" name="surname" type="text" placeholder="Введите фамилию"
+                                        <input required class="input" name="surname" type="text"
+                                               placeholder="Введите фамилию"
                                                value="{{old('surname')}}">
                                     </div>
                                 </div>
@@ -46,7 +47,7 @@
                                     <label class="label">Номер телефона</label>
                                     <div class="control has-icons-left">
                                         <input required class="input" name="phone" value="{{old('phone')}}" type="tel"
-                                        placeholder="Введите номер телефона" minlength="12">
+                                               placeholder="Введите номер телефона" minlength="12">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-plus"></i>
                                         </span>
@@ -60,7 +61,7 @@
                                     <label class="label">Пароль</label>
                                     <div class="control has-icons-left">
                                         <input required class="input" name="password" type="password"
-                                        placeholder="Введите новый пароль" minlength="8">
+                                               placeholder="Введите новый пароль" minlength="8">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-lock"></i>
                                         </span>
@@ -74,7 +75,7 @@
                                     <label class="label">Пароль</label>
                                     <div class="control has-icons-left">
                                         <input required class="input" name="password_confirmation" type="password"
-                                        placeholder="Введите пароль еще раз" minlength="8">
+                                               placeholder="Введите пароль еще раз" minlength="8">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-lock"></i>
                                         </span>

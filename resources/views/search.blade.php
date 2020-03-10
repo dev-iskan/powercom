@@ -7,17 +7,17 @@
 @endsection
 
 @section('body')
-<section class="section">
-    <h3 class="is-size-4 has-text-weight-bold has-text-centered">РЕЗУЛТАТЫ ПОИСКА</h3>
-    <br>
-    <div class="container">
-        <div class="columns is-multiline is-centered">
-            @foreach ($products as $product)
-                <div class="column is-one-third-tablet is-one-quarter-desktop">
-                    @include('components.card', ['product' => $product])
-                </div>
-            @endforeach
+    <section class="section">
+        <h3 class="is-size-4 has-text-weight-bold has-text-centered">РЕЗУЛТАТЫ ПОИСКА</h3>
+        <br>
+        <div class="container">
+            <div class="columns is-multiline is-centered">
+                @foreach ($products as $product)
+                    <div class="column is-one-third-tablet is-one-quarter-desktop">
+                        @include('components.card', ['product' => $product])
+                    </div>
+                @endforeach
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 @endsection

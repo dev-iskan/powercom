@@ -44,15 +44,19 @@
                                             <nav class="level is-mobile">
                                                 <div class="level-left">
                                                     <div class="buttons has-addons">
-                                                        <a class="button" href="{{ route('cart.decrement', ['product_id' => $cart_item['data']->id]) }}">-</a>
-                                                        <button class="button" disabled>{{ $cart_item['quantity']}}</button>
-                                                        <a class="button" href="{{ route('cart.store', ['product_id' => $cart_item['data']->id]) }}">+</a>
+                                                        <a class="button"
+                                                           href="{{ route('cart.decrement', ['product_id' => $cart_item['data']->id]) }}">-</a>
+                                                        <button class="button"
+                                                                disabled>{{ $cart_item['quantity']}}</button>
+                                                        <a class="button"
+                                                           href="{{ route('cart.store', ['product_id' => $cart_item['data']->id]) }}">+</a>
                                                     </div>
                                                 </div>
                                             </nav>
                                         </div>
                                         <div class="media-right">
-                                            <a class="delete" href="{{ route('cart.destroy', ['product_id' => $cart_item['data']->id]) }}"></a>
+                                            <a class="delete"
+                                               href="{{ route('cart.destroy', ['product_id' => $cart_item['data']->id]) }}"></a>
                                         </div>
                                     </article>
                                 </div>
@@ -144,7 +148,8 @@
                                     @endif
                                 </div>
                                 <div class="control mt-20">
-                                    <input id="address" class="input" type="text" name="address" value="{{old('address')}}"
+                                    <input id="address" class="input" type="text" name="address"
+                                           value="{{old('address')}}"
                                            placeholder="Аддрес доставки">
                                     @if($errors->has('address'))
                                         <p class="help is-danger">{{$errors->get('address')[0]}}</p>
@@ -163,14 +168,14 @@
 @endsection
 
 @section('script')
-<script>
-    function changeDelivery(e) {
-        const input = document.getElementById('address');
-        if (e.value === '1') {
-            input.classList.remove('hidden');
-        } else {
-            input.classList.add('hidden');
+    <script>
+        function changeDelivery(e) {
+            const input = document.getElementById('address');
+            if (e.value === '1') {
+                input.classList.remove('hidden');
+            } else {
+                input.classList.add('hidden');
+            }
         }
-    }
-</script>
+    </script>
 @endsection

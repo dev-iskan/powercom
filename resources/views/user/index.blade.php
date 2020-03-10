@@ -7,11 +7,11 @@
 @endsection
 
 @section('body')
-<section class="section has-background-white">
-    <div class="container">
-        <div class="content has-text-justified">
-            <h2 class="has-text-centered">МОИ ЗАКАЗЫ</h1>
+    <section class="section has-background-white">
+        <div class="container">
+            <div class="content has-text-justified">
+                <h2 class="has-text-centered">МОИ ЗАКАЗЫ</h2>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 @endsection

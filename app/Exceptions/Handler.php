@@ -54,7 +54,9 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
-            return response()->json(['message' => __('errors.not_found') .' '. $exception->getModel()], 404);
+            if ($request->expectsJson()) {
+                return response()->json(['message' => __('errors.not_found') .' '. $exception->getModel()], 404);
+            }
         }
 
         // Guzzle
