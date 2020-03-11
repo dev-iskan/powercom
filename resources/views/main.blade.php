@@ -19,7 +19,7 @@
                     <div class="content">
                         <h1>{{ $article->name }}</h1>
                         <p>{{ $article->short_description }}</p>
-                        <a href="{{ route('article', ['id' => $article->id]) }}">Перейти</a>
+                        <a href="{{ route('article.show', ['id' => $article->id]) }}">Перейти</a>
                     </div>
                 </div>
             @endforeach
