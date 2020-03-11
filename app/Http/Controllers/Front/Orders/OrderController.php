@@ -66,7 +66,7 @@ class OrderController extends Controller
                 $request->full_name,
                 $request->phone,
                 $request->address,
-                'http://admin.powercom.uz/order-edit/' . $order->id
+                'http://admin.powercom.uz/orders-edit/' . $order->id
             );
             SendTelegramNotification::dispatch($message);
         }
