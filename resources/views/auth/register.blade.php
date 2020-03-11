@@ -85,6 +85,14 @@
                                     @endif
                                 </div>
 
+                                <label class="checkbox">
+                                    <input type="checkbox" name="accept_offer">
+                                    Я принимаю условия <a href="{{ route('public-offer') }}">пользовательского соглашения</a>
+                                    @if($errors->has('accept_offer'))
+                                        <p class="help is-danger">{{ $errors->first('accept_offer') }}</p>
+                                    @endif
+                                </label>
+
                                 <div class="columns mt-20">
                                     <div class="column">
                                         <button type="submit" class="button is-fullwidth is-primary">Зарегистрироваться
