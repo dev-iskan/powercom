@@ -73,6 +73,6 @@ class OrderController extends Controller
 
         session()->put('cart', new Cart(null));
 
-        return redirect()->back()->with('message', 'Заказ успешно оформлен');
+        return redirect()->route('order.show', ['id' => $order->id])->with('message', 'Заказ успешно оформлен');
     }
 }
