@@ -90,7 +90,7 @@ class OrderController extends Controller
     public function setInProgress($id)
     {
         /** @var Order $order */
-        $order = Order::findOrFail($id);
+        $order = Order::with('items.product')->findOrFail($id);
 
         if (!$order->isCreated()) {
             return response()->json(['message' => 'Заказ должен быть в новым'], 400);
@@ -98,6 +98,17 @@ class OrderController extends Controller
 
         if (!$order->isValid()) {
             return response()->json(['message' => 'Заказ должен иметь товары'], 400);
+        }
+
+        foreach ($order->items as $item) {
+            $product = $item->product;
+
+            if ($item->quantity > $product->quantity) {
+                return response()->json(['message' => 'Превышено количество продукта ' . $product->name], 400);
+            }
+
+            $product->quantity = $product->quantity - $item->quantity;
+            $product->save();
         }
 
         $order->setInProgressStatus();
@@ -150,7 +161,14 @@ class OrderController extends Controller
     public function destroy($id)
     {
         /** @var Order $order */
-        $order = Order::findOrFail($id);
+        $order = Order::with('order_delivery')->findOrFail($id);
+
+        foreach ($order->items as $item) {
+            $product = $item->product;
+
+            $product->quantity = $product->quantity + $item->quantity;
+            $product->save();
+        }
 
         $order->setCancelledStatus();
         $order->save();

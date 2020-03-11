@@ -10,10 +10,12 @@ use App\Services\Cart;
 use App\Services\TelegramMessages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
-    public function show($id) {
+    public function show($id)
+    {
         $order = Order::with('status', 'items.product', 'order_delivery')->findOrFail($id);
         return view('user.order', compact('order'));
     }
@@ -36,7 +38,8 @@ class OrderController extends Controller
 
         $client = auth()->user()->client;
 
-        $order = DB::transaction(function () use ($client, $request, $cart) {
+        DB::beginTransaction();
+        try {
             $order = new Order();
             $order->client_id = $client->id;
             $order->setCreatedStatus();
@@ -47,19 +50,32 @@ class OrderController extends Controller
                 $order->order_delivery()->create($request->all());
             }
             foreach ($cart->items as $item) {
+                $product = $item['data']->fresh();
+                if ($item['quantity'] > $product->quantity) {
+                    throw new \Exception('not enough quantity');
+                }
+
                 $order_item = new OrderItem();
                 $order_item->quantity = $item['quantity'];
                 $order_item->price = $item['price'];
-                $order_item->product_id = $item['data']->id;
+                $order_item->product_id = $product->id;
                 $order_item->order_id = $order->id;
                 $order_item->save();
+
+                $product->quantity = $product->quantity - $item['quantity'];
+                $product->save();
             }
 
             $order->setInProgressStatus();
             $order->updateAmount();
 
-            return $order;
-        });
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage());
+            DB::rollBack();
+            return back()->with('message', 'Произошла ошибка');
+        }
+        DB::commit();
+
 
         if (config('app.env') == 'production') {
             $message = TelegramMessages::notifyNewOrder(
