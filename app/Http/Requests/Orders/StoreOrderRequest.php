@@ -25,6 +25,7 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'client_id' => 'required|integer',
+            'note' => 'nullable',
             'delivery' => 'nullable|boolean',
             'full_name' => 'required_if:delivery,1|string|max:255',
             'phone' => 'required_if:delivery,1|digits:12',

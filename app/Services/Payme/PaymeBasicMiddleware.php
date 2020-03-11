@@ -9,8 +9,8 @@ class PaymeBasicMiddleware
     public function handle($request, Closure $next)
     {
         $configLogin = config('local.payme_billing_service.login');
-//        $configKey = config('local.payme_billing_service.key');
-         $configKey = config('local.payme_billing_service.test_key');
+        $configKey = config('local.payme_billing_service.key');
+//         $configKey = config('local.payme_billing_service.test_key');
 
         $authorization = $request->header('authorization');
         if ($authorization && 0 === stripos($authorization, 'basic ')) {

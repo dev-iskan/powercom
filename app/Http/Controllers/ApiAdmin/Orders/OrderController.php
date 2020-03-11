@@ -53,6 +53,7 @@ class OrderController extends Controller
 
         $order = new Order();
         $order->client_id = $client->id;
+        $order->note = $request->note;
         $order->setCreatedStatus();
         $order->delivery = $request->delivery;
         $order->save();

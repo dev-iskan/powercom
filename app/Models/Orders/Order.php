@@ -15,7 +15,8 @@ class Order extends Model
         'amount',
         'paid',
         'delivery',
-        'finished_at'
+        'finished_at',
+        'note'
     ];
 
     protected $dates = [
