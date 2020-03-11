@@ -7,8 +7,10 @@
 @endsection
 
 @section('body')
-<section class="section is-large has-text-centered">
-    <h1 class="title">Powercom.uz</h1>
+<section class="section is-medium has-text-centered">
+    <figure class="has-text-centered mt-20">
+        <img src="{{ URL::asset('/image/logo.svg') }}" style="width: 160px;" alt="Powercom.uz">
+    </figure>
     <p>Страница не найдена</p>
 </section>
 @endsection

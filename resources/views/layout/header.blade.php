@@ -20,7 +20,7 @@
                         <i class="fas fa-shopping-cart"></i>
                     </span>
                 </a>
-                <a href="{{ route('login') }}" class="button is-white">
+                <a href="{{ Auth::check() ? route('home') : route('login') }}" class="button is-white">
                     <span class="icon has-text-primary">
                         <i class="fas fa-user-circle"></i>
                     </span>
@@ -70,7 +70,7 @@
         <ul class="menu-list">
             <li><a href="{{ route('main') }}">Главная</a></li>
             <li><a href="{{ route('cart.index') }}">Корзина</a></li>
-            <li><a href="{{ route('login') }}">Личный кабинет</a></li>
+            <li><a href="{{ Auth::check() ? route('home') : route('login') }}">Личный кабинет</a></li>
         </ul>
         <p class="menu-label">
             Категории

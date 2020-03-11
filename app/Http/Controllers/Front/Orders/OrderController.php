@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function show($id) {
+        $order = Order::with('status', 'items.product', 'order_delivery')->findOrFail($id);
+        return view('user.order', compact('order'));
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [

@@ -33,6 +33,7 @@ Route::namespace('Front')->group(function () {
         ->middleware('auth', 'phone_verified')
         ->group(function () {
             Route::post('orders', 'OrderController@store')->name('orders.store');
+            Route::get('orders/{id}', 'OrderController@show')->name('order.show');
         });
 
     Route::namespace('Products')
