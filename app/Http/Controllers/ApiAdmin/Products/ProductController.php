@@ -6,6 +6,7 @@ use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Products\StoreProductRequest;
 use App\Http\Requests\Products\UpdateProductRequest;
+use App\Imports\ProductImport;
 use App\Models\Products\Brand;
 use App\Models\Products\Category;
 use App\Models\Products\Product;
@@ -97,5 +98,13 @@ class ProductController extends Controller
     {
         $date = today()->format('d_m_Y');
         return Excel::download(new ProductExport(), "products_{$date}.xlsx");
+    }
+
+    public function import(Request $request)
+    {
+        $this->validate($request,[
+            'products' => 'required|mimes:xlsx,xls'
+        ]);
+        Excel::import(new ProductImport(), $request->file('products'));
     }
 }

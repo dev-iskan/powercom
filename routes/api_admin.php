@@ -40,6 +40,7 @@ Route::namespace('Products')
         Route::apiResource('brands', 'BrandController');
         Route::apiResource('products', 'ProductController');
         Route::post('excel/export_products', 'ProductController@export');
+        Route::post('excel/import_products', 'ProductController@import');
     });
 
 Route::namespace('Articles')
