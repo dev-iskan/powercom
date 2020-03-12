@@ -5,6 +5,11 @@ $primary: #0064C3;
 @import "~@fortawesome/fontawesome-free/css/all.css";
 @import '~swiper/css/swiper.min.css';
 
+.filter-contianer {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
 .navbar-item.is-mega {
     position: static;
     .is-mega-menu-title {

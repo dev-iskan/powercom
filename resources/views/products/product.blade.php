@@ -66,9 +66,14 @@
                                 Категории:
                             </strong>
                             @foreach ($product->categories as $category)
+                                
+                                <a href="{{ route('products.index', ['categories' => $category->id]) }}">
+                                    {{ $category->name }}
+                                </a>
+                                <span>-</span>
                                 <span>
-                                {{ $category->name }}
-                            </span>
+                                    {{ $category->short_description }}
+                                </span>
                             @endforeach
                         </p>
                     @endif
@@ -77,10 +82,17 @@
                             <strong>
                                 Бренд:
                             </strong>
-                            <span>
-                            {{ $product->brand->name }}
-                        </span>
+                            <a href="{{ route('products.index', ['brands' => $product->brand->id]) }}">
+                                {{ $product->brand->name }}
+                            </a>
                         </p>
+                        @if(count($product->brand->images))
+                            @foreach($product->brand->images as $image)
+                                {{-- <figure class="image is-1by1" style="width: 100px; height:100px;"> --}}
+                                    <img src="{{ $image->url }}" alt="{{ $product->brand->name }}" style="width: 64px; height:64px;">
+                                {{-- </figure> --}}
+                            @endforeach
+                        @endif
                     @endif
                     <br>
                     {!! $product->description !!}
