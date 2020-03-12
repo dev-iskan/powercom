@@ -32,10 +32,4 @@ class FrontController extends Controller
         $article = Article::findOrFail($id);
         return view('article', compact('article'));
     }
-
-    public function search()
-    {
-        $products = Product::with('categories', 'brand')->latest()->limit(8)->get();
-        return view('search', compact('products'));
-    }
 }

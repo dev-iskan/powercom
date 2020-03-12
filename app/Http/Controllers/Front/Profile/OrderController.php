@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Front\Orders;
+namespace App\Http\Controllers\Front\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SendTelegramNotification;
