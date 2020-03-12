@@ -157,7 +157,7 @@ class ClickBillingService
             if ($payment && $payment->click_status === Payment::STATUS_CANCELLED) {
                 return self::getErrorArray(self::ERROR_TRANSACTION_CANCELLED);
             }
-            if (abs((float)($payment->amount / 100) - (float)$request->amount) > 0.01) {
+            if (abs((float)($payment->amount) - (float)$request->amount) > 0.01) {
                 return self::getErrorArray(self::ERROR_INVALID_AMOUNT);
             }
         }
