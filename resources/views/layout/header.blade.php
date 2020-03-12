@@ -34,7 +34,7 @@
     @foreach ($categories as $category)
         <div class="level-item">
             <div class="navbar-item has-dropdown is-hoverable is-mega" style="height: 100%;">
-                <a href="{{ route('category.show', ['id' => $category->id]) }}"
+                <a href="{{ route('products.index', ['categories' => $category->id]) }}"
                    class="navbar-item has-text-black">{{ $category->name }}</a>
                 @if (count($category->children))
                     <div class="navbar-dropdown">
@@ -45,7 +45,7 @@
                                 </div>
                                 @foreach ($category->children as $child)
                                     <a class="navbar-item column is-one-third"
-                                       href="{{ route('category.show', ['id' => $child->id]) }}">{{ $child->name }}</a>
+                                       href="{{ route('products.index', ['categories' => $child->id]) }}">{{ $child->name }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -79,16 +79,16 @@
             @foreach ($categories as $category)
                 @if (count($category->children))
                     <li>
-                        <a href="{{ route('category.show', ['id' => $category->id]) }}">{{ $category->name }}</a>
+                        <a href="{{ route('products.index', ['categories' => $category->id]) }}">{{ $category->name }}</a>
                         <ul>
                             @foreach($category->children as $child)
-                                <li><a href="{{ route('category.show', ['id' => $child->id]) }}">{{ $child->name }}</a>
+                                <li><a href="{{ route('products.index', ['categories' => $child->id]) }}">{{ $child->name }}</a>
                                 </li>
                             @endforeach
                         </ul>
                     </li>
                 @else
-                    <li><a href="{{ route('category.show', ['id' => $category->id]) }}">{{ $category->name }}</a></li>
+                    <li><a href="{{ route('products.index', ['categories' => $category->id]) }}">{{ $category->name }}</a></li>
                 @endif
             @endforeach
         </ul>

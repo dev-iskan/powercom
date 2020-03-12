@@ -38,7 +38,7 @@ Route::namespace('Front')->group(function () {
 
     Route::namespace('Products')
         ->group(function () {
-            Route::get('categories/{id}', 'CategoryController@show')->name('category.show');
+            Route::get('products', 'ProductController@index')->name('products.index');
             Route::get('products/{id}', 'ProductController@show')->name('product.show');
         });
 
