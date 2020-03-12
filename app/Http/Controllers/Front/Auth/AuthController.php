@@ -128,7 +128,7 @@ class AuthController extends Controller
     public function sendCode()
     {
         $this->generateCodeSendCodeAndSaveToCache(auth()->user());
-        return back()->with('message', 'Успешно отправлено');
+        return back()->with('message', 'Код успешно отправлен');
     }
 
     public function logout(Request $request)

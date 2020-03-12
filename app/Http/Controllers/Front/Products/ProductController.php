@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Front\Products;
 
 use App\Http\Controllers\Controller;
+use App\Models\Products\Brand;
+use App\Models\Products\Category;
 use App\Models\Products\Product;
 use Illuminate\Http\Request;
 
@@ -54,7 +56,15 @@ class ProductController extends Controller
 
         $products = $productQuery->paginate($request->offset);
 
-        return view('products.products', compact('products'));
+        $categories = Category::parents()->with('allChildren')->get();
+        $brands = Brand::get();
+        $query = [
+            'categories' => explode(';', $request->query('categories')),
+            'brands' => explode(';', $request->query('brands')),
+            'q' => $request->query('q')
+        ];
+
+        return view('products.products', compact('products', 'categories', 'brands', 'query'));
     }
 
     public function show($id)

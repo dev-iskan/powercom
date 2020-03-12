@@ -45,7 +45,7 @@ Route::namespace('Front')->group(function () {
         });
 
 
-    Route::get('/', 'FrontController@main')->name('main'); // copy and paste
+    Route::get('/', 'FrontController@main')->name('main');
     Route::get('about', 'FrontController@about')->name('about');
     Route::get('public-offer', 'FrontController@publicOffer')->name('public-offer');
     Route::get('article/{id}', 'FrontController@article')->name('article.show');
