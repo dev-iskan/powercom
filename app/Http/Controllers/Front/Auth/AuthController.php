@@ -64,7 +64,7 @@ class AuthController extends Controller
             'surname' => 'required|string|max:255',
             'patronymic' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
-            'accept' => 'nullable|boolean'
+            'accept' => 'required|boolean'
         ]);
 
         $user = DB::transaction(function () use ($request) {
