@@ -47,7 +47,7 @@
                                 <br>
                                 {{ $order->paid ? 'Да' : 'Нет' }}
                             </p>
-                            @if($order->status->id > 2)
+                            @if($order->status->id == 3)
                                 <p>
                                     <strong><small>Дата получения (завершения) заказа:</small></strong>
                                     <br>
@@ -105,7 +105,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        @if(!$order->paid)
+                        @if(!$order->paid && $order->status->id < 3)
                             <p>Орпатить через:</p>
                             <div class="columns">
                                 <div class="column is-narrow">
