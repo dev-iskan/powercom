@@ -16,20 +16,22 @@ class ProductController extends Controller
 
         if ($q = $request->query('q')) {
             $productQuery->where(function ($query) use ($q) {
-                $query->where('name', 'like', "%{$q}%")
+                $query->where('name', 'ilike', "%{$q}%")
                     ->orWhereHas('brand', function ($brandQuery) use ($q) {
-                        $brandQuery->where('brands.name', 'like', "%{$q}%");
+                        $brandQuery->where('brands.name', 'ilike', "%{$q}%");
                     })->orWhereHas('categories', function ($categoryQuery) use ($q) {
-                        $categoryQuery->where('categories.name', 'like', "%{$q}%");
+                        $categoryQuery->where('categories.name', 'ilike', "%{$q}%");
                     });
             });
         }
 
+        $brand_ids = [];
         if ($request->query('brands')) {
             $brand_ids = explode(';', $request->query('brands'));
             $productQuery->whereIn('brand_id', $brand_ids);
         }
 
+        $category_ids = [];
         if ($request->query('categories')) {
             $category_ids = explode(';', $request->query('categories'));
             $productQuery->whereHas('categories', function ($query) use ($category_ids) {
@@ -59,8 +61,8 @@ class ProductController extends Controller
         $categories = Category::parents()->with('allChildren')->get();
         $brands = Brand::get();
         $query = [
-            'categories' => explode(';', $request->query('categories')),
-            'brands' => explode(';', $request->query('brands')),
+            'categories' => Category::whereIn('id', $category_ids)->get(),
+            'brands' => Brand::whereIn('id', $brand_ids)->get(),
             'q' => $request->query('q')
         ];
 
