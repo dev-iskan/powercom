@@ -22,7 +22,11 @@
                 </a>
                 <a href="{{ Auth::check() ? route('home') : route('login') }}" class="button is-white">
                     <span class="icon has-text-primary">
-                        <i class="fas fa-user-circle"></i>
+                        @if(Auth::check())
+                            <i class="fas fa-user-circle"></i>
+                        @else
+                            <i class="fas fa-sign-in-alt"></i>
+                        @endif
                     </span>
                 </a>
             </div>

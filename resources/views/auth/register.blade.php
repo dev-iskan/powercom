@@ -86,7 +86,7 @@
                                 </div>
 
                                 <label class="checkbox">
-                                    <input type="checkbox" name="accept_offer">
+                                    <input type="checkbox" id="accept_offer" name="accept_offer" onchange="toggle()">
                                     Я принимаю условия <a href="{{ route('public-offer') }}">пользовательского соглашения</a>
                                     @if($errors->has('accept_offer'))
                                         <p class="help is-danger">{{ $errors->first('accept_offer') }}</p>
@@ -95,7 +95,7 @@
 
                                 <div class="columns mt-20">
                                     <div class="column">
-                                        <button type="submit" class="button is-fullwidth is-primary">Зарегистрироваться
+                                        <button type="submit" id="submit" class="button is-fullwidth is-primary">Зарегистрироваться
                                         </button>
                                     </div>
                                     <div class="column">
@@ -110,4 +110,14 @@
             </div>
         </div>
     </section>
+@endsection
+@section('script')
+<script>
+    function toggle() {
+        const checkbox = document.getElementById('accept_offer');
+        const button = document.getElementById('submit');
+        button.disabled = !checkbox.checked;
+    }
+    toggle();
+</script>
 @endsection

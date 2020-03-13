@@ -16,7 +16,7 @@
                     <div class="column is-one-third">
                         <div class="border p-20">
                             <p>
-                                <strong><small>Дата создании заказа:</small></strong>
+                                <strong><small>Дата заказа:</small></strong>
                                 <br>
                                 {{ $order->created_at }}
                             </p>
@@ -42,6 +42,18 @@
                                 <br>
                                 {{ number_format($order->amount, 0) }} сум
                             </p>
+                            <p>
+                                <strong><small>Заказ оплачен:</small></strong>
+                                <br>
+                                {{ $order->paid ? 'Да' : 'Нет' }}
+                            </p>
+                            @if($order->status->id > 2)
+                                <p>
+                                    <strong><small>Дата получения (завершения) заказа:</small></strong>
+                                    <br>
+                                    {{ $order->finished_at }}
+                                </p>
+                            @endif
                             @if ($order->delivery)
                                 <hr>
                                 <p>

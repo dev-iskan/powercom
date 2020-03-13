@@ -20,7 +20,7 @@
                                 @foreach ($brands as $brand)
                                 <li>
                                     <label class="checkbox">
-                                        <input type="checkbox" class="brand" value="{{ $brand->id }}">
+                                        <input type="checkbox" class="brand" onchange="search()" value="{{ $brand->id }}">
                                         {{ $brand->name }}
                                     </label>
                                 </li>
@@ -35,7 +35,7 @@
                             @foreach ($categories as $category)
                                 <li>
                                     <label class="checkbox">
-                                        <input type="checkbox" class="category" value="{{ $category->id }}">
+                                        <input type="checkbox" class="category" onchange="search()" value="{{ $category->id }}">
                                         {{ $category->name }}
                                     </label>
                                 </li>
@@ -52,7 +52,31 @@
                     <button onclick="search()" class="button is-fullwidth is-primary mt-10">Найти</button>
                 </div>
                 <div class="column is-two-third">
-                    <div class="is-size-5">Товары</div>
+                    <div class="is-size-5">
+                        Товары
+                        @foreach($query['categories'] as $category)
+                            @if($category)
+                                <span class="tag">
+                                    {{ $category }}
+                                    <button class="delete" onclick="remove('categories', '{!! $category !!}')"></button>
+                                </span>
+                            @endif
+                        @endforeach
+                        @foreach($query['brands'] as $brand)
+                            @if($brand)
+                                <span class="tag">
+                                    {{ $brand }}
+                                    <button class="delete" onclick="remove('brands', '{!! $brand !!}')"></button>
+                                </span>
+                            @endif
+                        @endforeach
+                        @if($query['q'])
+                        <span class="tag">
+                            {{ $query['q'] }}
+                            <button class="delete" onclick="remove('q')"></button>
+                        </span>
+                        @endif
+                    </div>
                     <hr>
                     @if (!count($products))
                         <div class="is-size-4">Продукты не найдены</div>
@@ -158,6 +182,32 @@
         query = query.join('&');
 
         window.location.replace('{!! route('products.index') !!}' + '?' + query);
+    }
+
+    function remove(type, value) {
+        switch(type) {
+            case 'brands':
+                const brands = document.querySelectorAll('.brand');
+                brands.forEach(element => {
+                    if(element.value === value) {
+                        element.checked = false;
+                    }
+                });
+                break;
+            case 'categories':
+                const categories = document.querySelectorAll('.category');
+                categories.forEach(element => {
+                    if(element.value === value) {
+                        element.checked = false;
+                    }
+                });
+                break;
+            case 'q':
+                const queryText = document.getElementById('query');
+                queryText.value = '';
+                break;
+        }
+        search();
     }
 
     setChecked();

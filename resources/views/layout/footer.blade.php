@@ -8,7 +8,9 @@
                 <br>
                 <a class="has-text-dark" href="{{ route('main') }}">Главная</a>
                 <br>
-                <a class="has-text-dark" href="{{ route('login') }}">Вход</a>
+                <a class="has-text-dark" href="{{ Auth::check() ? route('home') : route('login') }}">
+                    {{ Auth::check() ? 'Персональный кабинет' : 'Вход' }}
+                </a>
                 <br>
                 <a class="has-text-dark" href="{{ route('show_register') }}">Регистрация</a>
                 <br>
