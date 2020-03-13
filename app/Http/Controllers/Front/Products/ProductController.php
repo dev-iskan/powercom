@@ -69,7 +69,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('categories', 'brand')->active()->findOrFail($id);
+        $product = Product::with('categories', 'brand.images')->active()->findOrFail($id);
         return view('products.product', compact('product'));
     }
 }
