@@ -145,7 +145,7 @@
 
         if (queryText) {
             const element = document.getElementById('query');
-            element.value = queryText;
+            element.value = decodeURIComponent(queryText);
         }
     }
 
@@ -177,7 +177,7 @@
             query.push('categories=' + selectedCategories.join(';'))
         }
         if (queryText.value) {
-            query.push('q=' + queryText.value)
+            query.push('q=' + encodeURIComponent(queryText.value))
         }
         query = query.join('&');
 
