@@ -12,9 +12,20 @@ class FrontController extends Controller
 {
     public function main()
     {
-        $products = Product::with('categories', 'brand')->latest()->limit(8)->get();
-        $articles = Article::latest()->get();
-        return view('main', compact('products', 'articles'));
+        $new_products = Product::with('categories', 'brand')
+            ->whereDate('created_at', '>=', today()->subMonth())
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        $popular_products = Product::with('categories', 'brand')
+            ->inRandomOrder()
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        $articles = Article::active()->latest()->get();
+        return view('main', compact('new_products', 'popular_products',  'articles'));
     }
 
     public function about()

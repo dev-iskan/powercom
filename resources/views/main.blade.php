@@ -112,7 +112,7 @@
         <br>
         <div class="container">
             <div class="columns is-multiline is-centered">
-                @foreach ($products as $product)
+                @foreach ($new_products as $product)
                     <div class="column is-one-third-tablet is-one-quarter-desktop">
                         @include('components.card', ['product' => $product])
                     </div>
@@ -125,7 +125,7 @@
         <br>
         <div class="container">
             <div class="columns is-multiline is-centered">
-                @foreach ($products as $product)
+                @foreach ($popular_products as $product)
                     <div class="column is-one-third-tablet is-one-quarter-desktop">
                         @include('components.card', ['product' => $product])
                     </div>

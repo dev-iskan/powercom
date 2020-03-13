@@ -9,5 +9,10 @@ class Article extends Model
 {
     use HasImages;
 
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+
     protected $fillable = ['name', 'short_description', 'description', 'active'];
 }
