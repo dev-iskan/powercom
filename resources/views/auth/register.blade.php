@@ -86,10 +86,10 @@
                                 </div>
 
                                 <label class="checkbox">
-                                    <input type="checkbox" id="accept_offer" name="accept_offer" onchange="toggle()">
+                                    <input type="checkbox" id="accept_offer" name="accept" onchange="toggle()">
                                     Я принимаю условия <a href="{{ route('public-offer') }}">пользовательского соглашения</a>
-                                    @if($errors->has('accept_offer'))
-                                        <p class="help is-danger">{{ $errors->first('accept_offer') }}</p>
+                                    @if($errors->has('accept'))
+                                        <p class="help is-danger">{{ $errors->first('accept') }}</p>
                                     @endif
                                 </label>
 

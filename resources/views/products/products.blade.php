@@ -57,16 +57,16 @@
                         @foreach($query['categories'] as $category)
                             @if($category)
                                 <span class="tag">
-                                    {{ $category }}
-                                    <button class="delete" onclick="remove('categories', '{!! $category !!}')"></button>
+                                    {{ $category->name }}
+                                    <button class="delete" onclick="remove('categories', '{!! $category->id !!}')"></button>
                                 </span>
                             @endif
                         @endforeach
                         @foreach($query['brands'] as $brand)
                             @if($brand)
                                 <span class="tag">
-                                    {{ $brand }}
-                                    <button class="delete" onclick="remove('brands', '{!! $brand !!}')"></button>
+                                    {{ $brand->name }}
+                                    <button class="delete" onclick="remove('brands', '{!! $brand->id !!}')"></button>
                                 </span>
                             @endif
                         @endforeach

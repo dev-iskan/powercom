@@ -98,3 +98,29 @@
         </ul>
     </aside>
 </div>
+
+@if(session()->get('message'))
+<div class="modal is-active" id="modal">
+    <div class="modal-background" style="opacity: 0.5"></div>
+    <div class="modal-content">
+        <div class="box p-10">
+            <header class="modal-card-head has-background-white">
+                <p class="modal-card-title is-size-6">Сообщение</p>
+                <button class="delete" aria-label="close" onclick="closeModal()"></button>
+            </header>
+            <section class="modal-card-body" style="max-width: 400px">
+                <p>{{ session()->get('message') }}</p>
+            </section>
+        </div>
+    </div>
+  </div>
+
+  @section('script')
+    <script>
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('is-active');
+        }
+    </script>
+  @endsection
+@endif
