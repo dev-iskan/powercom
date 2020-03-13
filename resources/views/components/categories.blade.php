@@ -1,6 +1,6 @@
 <li>
     <label class="checkbox">
-        <input type="checkbox" class="category" value="{{ $category->id }}">
+        <input type="checkbox" class="category" onchange="search()" value="{{ $category->id }}">
         {{ $category->name }}
     </label>
 </li>
