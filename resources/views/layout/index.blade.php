@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @yield('meta')
-    {{-- <meta name="description" content="..."> --}}
-    {{-- <meta name="og:title" property="og:title" content="..."> --}}
-    {{-- <meta name="twitter:card" content="..."> --}}
     <title>Powercom.uz</title>
     <link rel="shortcut icon" href="{{ URL::asset('favicon.ico') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/app.css') }}">
@@ -24,5 +21,6 @@
         sidebar.classList.toggle('hidden');
     }
 </script>
+<script src="//code.jivosite.com/widget/KnjwLUQ9KJ" async></script>
 @yield('script')
 </html>

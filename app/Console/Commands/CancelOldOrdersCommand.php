@@ -38,7 +38,7 @@ class CancelOldOrdersCommand extends Command
      */
     public function handle()
     {
-        Order::inProgress()->whereDate('created_at', '<', today()->subDays(3))->with('order_delivery', 'items.product')->chunk(10, function ($orders) {
+        Order::inProgress()->whereDate('created_at', '<', today()->subDays(1))->with('order_delivery', 'items.product')->chunk(10, function ($orders) {
             foreach ($orders as $order) {
                 foreach ($order->items as $item) {
                     $product = $item->product;
