@@ -13,12 +13,14 @@ class FrontController extends Controller
     public function main()
     {
         $new_products = Product::with('categories', 'brand')
+            ->where('active', true)
             ->whereDate('created_at', '>=', today()->subMonth())
             ->latest()
             ->limit(8)
             ->get();
 
         $popular_products = Product::with('categories', 'brand')
+            ->where('active', true)
             ->inRandomOrder()
             ->latest()
             ->limit(8)
