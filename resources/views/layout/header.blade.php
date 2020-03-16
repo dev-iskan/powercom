@@ -34,7 +34,7 @@
     </div>
 </nav>
 <hr style="margin: 0;"/>
-<nav id="catigories" class="navbar level box is-paddingless is-radiusless is-marginless" style="overflow-x: auto;">
+<nav id="catigories" class="navbar level box is-paddingless is-radiusless is-marginless">
     @foreach ($categories as $category)
         <div class="level-item">
             <div class="navbar-item has-dropdown is-hoverable is-mega" style="height: 100%;">
