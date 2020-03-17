@@ -14,20 +14,20 @@ class FrontController extends Controller
     {
         $new_products = Product::with('categories', 'brand')
             ->where('active', true)
-            ->whereDate('created_at', '>=', today()->subMonth())
+            // ->whereDate('created_at', '>=', today()->subMonth())
             ->latest()
             ->limit(8)
             ->get();
 
-        $popular_products = Product::with('categories', 'brand')
-            ->where('active', true)
-            ->inRandomOrder()
-            ->latest()
-            ->limit(8)
-            ->get();
+        // $popular_products = Product::with('categories', 'brand')
+        //     ->where('active', true)
+        //     ->inRandomOrder()
+        //     ->latest()
+        //     ->limit(8)
+        //     ->get();
 
         $articles = Article::active()->latest()->get();
-        return view('main', compact('new_products', 'popular_products',  'articles'));
+        return view('main', compact('new_products',  'articles'));
     }
 
     public function about()

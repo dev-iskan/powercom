@@ -117,10 +117,13 @@
                         @include('components.card', ['product' => $product])
                     </div>
                 @endforeach
+                <div class="column is-full has-text-centered">
+                    <a class="button" href="{{ route('products.index') }}">Показать все товары</a>
+                </div>
             </div>
         </div>
     </section>
-    <section class="section">
+    {{-- <section class="section">
         <h3 class="is-size-4 has-text-weight-bold has-text-centered">ПОПУЛЯРНЫЕ ТОВАРЫ</h3>
         <br>
         <div class="container">
@@ -132,7 +135,7 @@
                 @endforeach
             </div>
         </div>
-    </section>
+    </section> --}}
     <hr>
     <section class="section pt-20">
         <div class="content">
