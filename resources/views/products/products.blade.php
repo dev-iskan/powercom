@@ -88,6 +88,9 @@
                                     @include('components.card', ['product' => $product])
                                 </div>
                             @endforeach
+                            <div class="column is-full has-text-centered">
+                                {{ $products->appends($_GET)->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
