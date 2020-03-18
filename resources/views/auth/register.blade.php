@@ -72,7 +72,7 @@
                                 </div>
 
                                 <div class="field">
-                                    <label class="label">Пароль</label>
+                                    <label class="label">Подтверждение пароля</label>
                                     <div class="control has-icons-left">
                                         <input required class="input" name="password_confirmation" type="password"
                                                placeholder="Введите пароль еще раз" minlength="8">

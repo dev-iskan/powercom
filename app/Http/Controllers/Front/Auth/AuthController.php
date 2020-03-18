@@ -64,7 +64,7 @@ class AuthController extends Controller
             'surname' => 'required|string|max:255',
             'patronymic' => 'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
-            'accept' => 'required|boolean'
+            'accept' => 'required'
         ]);
 
         $user = DB::transaction(function () use ($request) {
@@ -85,7 +85,7 @@ class AuthController extends Controller
 
         $this->generateCodeSendCodeAndSaveToCache($user);
 
-        return redirect()->route('show_verify');
+        return redirect()->route('show_verify')->with('message', 'Код отправлен на ваш телефон номер');
     }
 
     public function showVerifyForm()
