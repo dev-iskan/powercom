@@ -142,6 +142,32 @@ class AuthController extends Controller
         return redirect()->route('main');
     }
 
+    public function showRequestPasswordReset()
+    {
+        return view('auth.request_password_reset');
+    }
+
+    public function requestPasswordReset(Request $request)
+    {
+        $this->validate($request, [
+            'phone' => 'required|digits:12'
+        ]);
+    }
+
+    public function showPasswordReset()
+    {
+        return view('auth.password_reset');
+    }
+
+    public function passwordReset(Request $request)
+    {
+        $this->validate($request, [
+            'phone' => 'required|digits:12',
+            'password' => 'required|string|min:8|confirmed',
+            'code' => 'required'
+        ]);
+    }
+
     protected function generateCodeSendCodeAndSaveToCache($user)
     {
         if (config('app.env') == 'production') {

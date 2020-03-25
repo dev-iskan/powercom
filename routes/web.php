@@ -9,6 +9,12 @@ Route::namespace('Front')->group(function () {
 
             Route::get('login', 'AuthController@showLoginForm')->name('login');
             Route::post('login', 'AuthController@login')->name('request_login');
+
+            Route::get('request_password_reset', 'AuthController@showRequestPasswordReset');
+            Route::post('request_password_reset', 'AuthController@requestPasswordRequest');
+
+            Route::get('password_reset', 'AuthController@showPasswordReset');
+            Route::post('password_reset', 'AuthController@passwordRequest');
         });
 
         Route::middleware('auth', 'phone_already_verified')->group(function () {
