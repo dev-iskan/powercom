@@ -158,21 +158,20 @@ class OrderController extends Controller
         return $order;
     }
 
-    public function destroy($id)
+    public function cancelDelivery($id)
     {
         /** @var Order $order */
         $order = Order::with('order_delivery')->findOrFail($id);
-
-        foreach ($order->items as $item) {
-            $product = $item->product;
-
-            $product->quantity = $product->quantity + $item->quantity;
-            $product->save();
+        if (!($order->isInProgress() || $order->isCreated())) {
+            return response()->json(['message' => 'Невозможно отменить заявку'], 400);
         }
-
-        $order->setCancelledStatus();
-        $order->save();
+        $order->cancel();
 
         return $order;
+    }
+
+    public function destroy($id)
+    {
+
     }
 }

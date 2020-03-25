@@ -100,4 +100,16 @@ class Order extends Model
     {
         return $query->where('paid', false);
     }
+
+    public function cancel()
+    {
+        foreach ($this->items as $item) {
+            $product = $item->product;
+            $product->quantity = $product->quantity + $item->quantity;
+            $product->save();
+        }
+
+        $this->setCancelledStatus();
+        $this->save();
+    }
 }

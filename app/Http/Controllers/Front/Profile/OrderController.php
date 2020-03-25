@@ -35,6 +35,9 @@ class OrderController extends Controller
         if (!$cart) {
             return redirect()->route('cart.index');
         }
+        if (!$cart->total_price) {
+            return redirect()->route('cart.index');
+        }
 
         $client = auth()->user()->client;
 

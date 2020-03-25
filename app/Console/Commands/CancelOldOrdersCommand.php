@@ -38,19 +38,13 @@ class CancelOldOrdersCommand extends Command
      */
     public function handle()
     {
-        Order::inProgress()->whereDate('created_at', '<', today()->subDays(1))->with('order_delivery', 'items.product')->chunk(10, function ($orders) {
-            foreach ($orders as $order) {
-                foreach ($order->items as $item) {
-                    $product = $item->product;
-
-                    $product->quantity = $product->quantity + $item->quantity;
-                    $product->save();
+        Order::inProgress()->whereDate('created_at', '<', today()->subDays(1))
+            ->with('order_delivery', 'items.product')
+            ->chunk(10, function ($orders) {
+                /** @var Order $order */
+                foreach ($orders as $order) {
+                    $order->cancel();
                 }
-
-                $order->setCancelledStatus();
-                $order->save();
-            }
-        });
-
+            });
     }
 }

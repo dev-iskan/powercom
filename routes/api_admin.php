@@ -74,6 +74,7 @@ Route::namespace('Orders')
         Route::post('orders/{id}/set_in_progress', 'OrderController@setInProgress');
         Route::post('orders/{id}/set_completed', 'OrderController@setCompleted');
         Route::post('orders/{id}/complete_delivery', 'OrderController@completeDelivery');
+        Route::post('orders/{id}/cancel_delivery', 'OrderController@cancelDelivery');
 
 
         Route::get('payments', 'PaymentController@index');
