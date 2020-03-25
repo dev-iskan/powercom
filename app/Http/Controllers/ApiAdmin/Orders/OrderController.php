@@ -165,6 +165,9 @@ class OrderController extends Controller
         if (!($order->isInProgress() || $order->isCreated())) {
             return response()->json(['message' => 'Невозможно отменить заявку'], 400);
         }
+        if ($order->isDelivered() || $order->paid) {
+            return response()->json(['message' => 'Невозможно отменить заявку'], 400);
+        }
         $order->cancel();
 
         return $order;
