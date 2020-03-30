@@ -16,7 +16,7 @@
                             <img src="{{ URL::asset('/image/logo.svg') }}" style="width: 160px;" alt="Powercom.uz">
                         </figure>
                         <div class="card-content">
-                            <form action="{{route('request_login')}}" method="POST">
+                            <form action="{{route('request_password_reset')}}" method="POST">
                                 @csrf
                                 <div class="field">
                                     <label class="label">Номер телефона</label>
@@ -32,30 +32,10 @@
                                     @endif
                                 </div>
 
-                                <div class="field">
-                                    <label class="label">Пароль</label>
-                                    <div class="control has-icons-left">
-                                        <input required class="input" name="password" type="password"
-                                               placeholder="Введите пароль" minlength="6">
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-lock"></i>
-                                        </span>
-                                    </div>
-                                    @if($errors->has('password'))
-                                        <p class="help is-danger">{{ $errors->first('password') }}</p>
-                                    @endif
-                                </div>
-
-                                <a href="{{ route('request_password_reset') }}">Забыли пароль?</a>
-
                                 <div class="columns mt-20">
                                     <div class="column">
-                                        <button type="submit" class="button is-fullwidth is-primary">Войти
+                                        <button type="submit" class="button is-fullwidth is-primary">Восстановить пароль
                                         </button>
-                                    </div>
-                                    <div class="column">
-                                        <a href="{{ route('register') }}" class="button is-fullwidth is-outlined">Зарегистрироваться
-                                        </a>
                                     </div>
                                 </div>
 

@@ -16,27 +16,26 @@
                             <img src="{{ URL::asset('/image/logo.svg') }}" style="width: 160px;" alt="Powercom.uz">
                         </figure>
                         <div class="card-content">
-                            <form action="{{route('request_login')}}" method="POST">
+                            <form action="{{route('password_reset')}}" method="POST">
                                 @csrf
                                 <div class="field">
-                                    <label class="label">Номер телефона</label>
+                                    <label class="label">Код</label>
                                     <div class="control has-icons-left">
-                                        <input required class="input" name="phone" value="{{old('phone')}}" type="tel"
-                                               placeholder="Введите номер телефона" minlength="12">
+                                        <input required class="input" name="code" value="{{old('phone')}}" type="number"
+                                               placeholder="Введите код" minlength="12">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-plus"></i>
                                         </span>
                                     </div>
-                                    @if($errors->has('phone'))
-                                        <p class="help is-danger">{{ $errors->first('phone') }}</p>
+                                    @if($errors->has('code'))
+                                        <p class="help is-danger">{{ $errors->first('code') }}</p>
                                     @endif
                                 </div>
-
                                 <div class="field">
                                     <label class="label">Пароль</label>
                                     <div class="control has-icons-left">
-                                        <input required class="input" name="password" type="password"
-                                               placeholder="Введите пароль" minlength="6">
+                                        <input required class="input" name="password" value="{{old('phone')}}" type="text"
+                                               placeholder="Введите новый пароль" minlength="12">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-lock"></i>
                                         </span>
@@ -45,17 +44,12 @@
                                         <p class="help is-danger">{{ $errors->first('password') }}</p>
                                     @endif
                                 </div>
-
-                                <a href="{{ route('request_password_reset') }}">Забыли пароль?</a>
+                                <input type="hidden" name="phone" value="">
 
                                 <div class="columns mt-20">
                                     <div class="column">
-                                        <button type="submit" class="button is-fullwidth is-primary">Войти
+                                        <button type="submit" class="button is-fullwidth is-primary">Восстановить пароль
                                         </button>
-                                    </div>
-                                    <div class="column">
-                                        <a href="{{ route('register') }}" class="button is-fullwidth is-outlined">Зарегистрироваться
-                                        </a>
                                     </div>
                                 </div>
 

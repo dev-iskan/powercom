@@ -21,6 +21,6 @@
         sidebar.classList.toggle('hidden');
     }
 </script>
-<script src="//code.jivosite.com/widget/KnjwLUQ9KJ" async></script>
+{{-- <script src="//code.jivosite.com/widget/KnjwLUQ9KJ" async></script> --}}
 @yield('script')
 </html>

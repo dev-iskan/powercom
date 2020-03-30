@@ -10,10 +10,10 @@ Route::namespace('Front')->group(function () {
             Route::get('login', 'AuthController@showLoginForm')->name('login');
             Route::post('login', 'AuthController@login')->name('request_login');
 
-            Route::get('request_password_reset', 'AuthController@showRequestPasswordReset');
-            Route::post('request_password_reset', 'AuthController@requestPasswordRequest');
+            Route::get('request_password_reset', 'AuthController@showRequestPasswordReset')->name('request_password_reset');
+            Route::post('request_password_reset', 'AuthController@requestPasswordReset');
 
-            Route::get('password_reset', 'AuthController@showPasswordReset');
+            Route::get('password_reset', 'AuthController@showPasswordReset')->name('password_reset');
             Route::post('password_reset', 'AuthController@passwordRequest');
         });
 
