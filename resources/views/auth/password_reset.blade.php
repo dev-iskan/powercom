@@ -24,7 +24,7 @@
                                         <input required class="input" name="code"
                                                placeholder="Введите код">
                                         <span class="icon is-small is-left">
-                                            <i class="fas fa-mailchimp"></i>
+                                            <i class="fas fa-sms"></i>
                                         </span>
                                     </div>
                                     @if($errors->has('code'))
@@ -35,7 +35,7 @@
                                     <label class="label">Пароль</label>
                                     <div class="control has-icons-left">
                                         <input required class="input" name="password"
-                                               type="text"
+                                               type="password"
                                                placeholder="Введите новый пароль">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-lock"></i>
