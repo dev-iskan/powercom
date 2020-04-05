@@ -32,6 +32,10 @@ class OrderController extends Controller
             $ordersQuery->where('paid', $paid);
         }
 
+        if ($client_id = $request->query('client_id')) {
+            $ordersQuery->where('client_id', $client_id);
+        }
+
         if ($delivery = $request->query('delivery')) {
             $ordersQuery->where('delivery', $delivery);
         }
