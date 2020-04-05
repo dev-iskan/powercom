@@ -115,12 +115,12 @@
     </div>
   </div>
 
-  @section('script')
+  {{-- @section('script') --}}
     <script>
         function closeModal() {
             const modal = document.getElementById('modal');
             modal.classList.remove('is-active');
         }
     </script>
-  @endsection
+  {{-- @endsection --}}
 @endif
