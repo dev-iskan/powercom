@@ -69,9 +69,21 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->update(array_merge($request->all(), [
-            'password' => Hash::make($request->password)
-        ]));
+
+        $data = $request->all();
+        if ($request->password) {
+            $data = array_merge($data, [
+                'password' => Hash::make($request->password)
+            ]);
+        }
+        $user->update($data);
+
+        if($client =$user->client && $request->phone) {
+            $client->update([
+                'phone' => $request->phone
+            ]);
+        }
+        return $user;
     }
 
     public function destroy($id)
