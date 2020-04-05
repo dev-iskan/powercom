@@ -23,7 +23,7 @@ class CreateAndSaveEskizToken implements ShouldQueue
     {
         $parsedResponse = SmsService::getToken();
         $token = $parsedResponse['data']['token'];
-
+        DB::table('base_settings')->delete();
         DB::table('base_settings')->insert(['eskiz_token' => $token]);
     }
 }
