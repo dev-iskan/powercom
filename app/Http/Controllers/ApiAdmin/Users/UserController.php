@@ -78,7 +78,7 @@ class UserController extends Controller
         }
         $user->update($data);
 
-        if($client =$user->client && $request->phone) {
+        if (($client = $user->client) && $request->phone) {
             $client->update([
                 'phone' => $request->phone
             ]);
