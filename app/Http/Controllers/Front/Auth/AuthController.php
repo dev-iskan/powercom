@@ -83,14 +83,13 @@ class AuthController extends Controller
 
         Auth::guard()->login($user);
 
-        $this->generateCodeSendCodeAndSaveToCache($user);
+        $this->generateCodeSendCodeAndSaveToCache($user, 'verification_');
 
         return redirect()->route('show_verify')->with('message', 'Код отправлен на ваш телефон номер');
     }
 
     public function showVerifyForm()
     {
-        // dump(Cache::get('verification_998909889322'));
         return view('auth.verify');
     }
 
@@ -100,7 +99,7 @@ class AuthController extends Controller
             'code' => 'required|digits:4'
         ], [
             'required' => 'Поле обязательно для заполнения.',
-            'digits' => 'Код должен быть :digits цифры.',
+            'digits' => 'Код должен быть :digits цифер.',
         ]);
 
         $user = auth()->user();
@@ -108,7 +107,6 @@ class AuthController extends Controller
         $cachedPhone = Cache::get($cacheKey);
 
         if (!$cachedPhone || $cachedPhone['tries'] == 3) {
-            Cache::forget($cacheKey);
             return back()->with('message', 'Код не отправлен или срок кода истек');
         }
 
@@ -127,7 +125,7 @@ class AuthController extends Controller
 
     public function sendCode()
     {
-        $this->generateCodeSendCodeAndSaveToCache(auth()->user());
+        $this->generateCodeSendCodeAndSaveToCache(auth()->user(), 'verification_');
         return back()->with('message', 'Код успешно отправлен');
     }
 
@@ -151,7 +149,19 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'phone' => 'required|digits:12'
+        ], [
+            'required' => 'Поле обязательно для заполнения.',
+            'digits' => 'Код должен быть :digits цифры.',
         ]);
+        $user = User::where('phone', $request->phone)->first();
+        if (!$user) {
+            return back()->with('message', 'Пользователь с данным номером не найден');
+        }
+
+        $this->generateCodeSendCodeAndSaveToCache($user, 'password_reset_');
+
+        session()->put('password_reset', $user->phone);
+        return redirect()->route('password_reset')->with('message', 'Код успешно отправлен');
     }
 
     public function showPasswordReset()
@@ -163,21 +173,50 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'phone' => 'required|digits:12',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|min:8',
             'code' => 'required'
+        ], [
+            'required' => 'Поле обязательно для заполнения.',
+            'digits' => 'Код должен быть :digits цифер.',
+            'min' => 'Минимальное количество :digits цифер.',
         ]);
+
+        $user = User::where('phone', $request->phone)->first();
+        if (!$user) {
+            return back()->with('message', 'Пользователь с данным номером не найден');
+        }
+
+        $cacheKey = 'password_reset_' . $user->phone;
+        $cachedPhone = Cache::get($cacheKey);
+
+        if (!$cachedPhone || $cachedPhone['tries'] == 3) {
+            return back()->with('message', 'Код не отправлен или срок кода истек');
+        }
+
+        if (!in_array($request->code, $cachedPhone['codes'])) {
+            $cachedPhone['tries']++;
+            Cache::put($cacheKey, $cachedPhone, 300);
+            return back()->with('message', 'Неверный код');
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        session()->forget('password_reset');
+        Cache::forget($cacheKey);
+        return redirect()->route('main')->with('message', 'Пароль успешно обновлен');
     }
 
-    protected function generateCodeSendCodeAndSaveToCache($user)
+    protected function generateCodeSendCodeAndSaveToCache($user, $key)
     {
         if (config('app.env') == 'production') {
             $code = rand(1000, 9999);
-            SendSms::dispatch($user->phone, 'Powercom.uz. Vash kod podverjdenia: '.$code);
+            SendSms::dispatch($user->phone, 'Powercom.uz. Vash kod podverjdenia: ' . $code);
         } else {
             $code = 1111;
         }
 
-        $cacheKey = 'verification_' . $user->phone;
+        $cacheKey = $key . $user->phone;
         $cachedPhone = Cache::get($cacheKey);
         if (empty($cachedPhone['codes'])) {
             Cache::put($cacheKey, ['codes' => [$code], 'tries' => 0], 600);

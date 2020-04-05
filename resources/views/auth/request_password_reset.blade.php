@@ -16,7 +16,7 @@
                             <img src="{{ URL::asset('/image/logo.svg') }}" style="width: 160px;" alt="Powercom.uz">
                         </figure>
                         <div class="card-content">
-                            <form action="{{route('request_password_reset')}}" method="POST">
+                            <form action="{{route('form_request_password_reset')}}" method="POST">
                                 @csrf
                                 <div class="field">
                                     <label class="label">Номер телефона</label>

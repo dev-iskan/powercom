@@ -16,15 +16,15 @@
                             <img src="{{ URL::asset('/image/logo.svg') }}" style="width: 160px;" alt="Powercom.uz">
                         </figure>
                         <div class="card-content">
-                            <form action="{{route('password_reset')}}" method="POST">
+                            <form action="{{route('form_password_reset')}}" method="POST">
                                 @csrf
                                 <div class="field">
                                     <label class="label">Код</label>
                                     <div class="control has-icons-left">
-                                        <input required class="input" name="code" value="{{old('phone')}}" type="number"
-                                               placeholder="Введите код" minlength="12">
+                                        <input required class="input" name="code"
+                                               placeholder="Введите код">
                                         <span class="icon is-small is-left">
-                                            <i class="fas fa-plus"></i>
+                                            <i class="fas fa-mailchimp"></i>
                                         </span>
                                     </div>
                                     @if($errors->has('code'))
@@ -34,8 +34,9 @@
                                 <div class="field">
                                     <label class="label">Пароль</label>
                                     <div class="control has-icons-left">
-                                        <input required class="input" name="password" value="{{old('phone')}}" type="text"
-                                               placeholder="Введите новый пароль" minlength="12">
+                                        <input required class="input" name="password"
+                                               type="text"
+                                               placeholder="Введите новый пароль">
                                         <span class="icon is-small is-left">
                                             <i class="fas fa-lock"></i>
                                         </span>
@@ -44,7 +45,7 @@
                                         <p class="help is-danger">{{ $errors->first('password') }}</p>
                                     @endif
                                 </div>
-                                <input type="hidden" name="phone" value="">
+                                <input type="hidden" name="phone" value="{{session('password_reset')}}">
 
                                 <div class="columns mt-20">
                                     <div class="column">

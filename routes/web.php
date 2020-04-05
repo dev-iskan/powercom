@@ -11,10 +11,10 @@ Route::namespace('Front')->group(function () {
             Route::post('login', 'AuthController@login')->name('request_login');
 
             Route::get('request_password_reset', 'AuthController@showRequestPasswordReset')->name('request_password_reset');
-            Route::post('request_password_reset', 'AuthController@requestPasswordReset');
+            Route::post('request_password_reset', 'AuthController@requestPasswordReset')->name('form_request_password_reset');
 
             Route::get('password_reset', 'AuthController@showPasswordReset')->name('password_reset');
-            Route::post('password_reset', 'AuthController@passwordRequest');
+            Route::post('password_reset', 'AuthController@passwordReset')->name('form_password_reset');
         });
 
         Route::middleware('auth', 'phone_already_verified')->group(function () {
