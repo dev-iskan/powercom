@@ -51,21 +51,21 @@
                 </p>
             </div>
             <div class="column has-text-right-desktop">
-                <span class="icon is-medium">
-                    <i class="fab fa-twitter"></i>
-                </span>
-                <span class="icon is-medium">
-                    <i class="fab fa-instagram"></i>
-                </span>
-                <span class="icon is-medium">
-                    <i class="fab fa-facebook"></i>
-                </span>
-                <span class="icon is-medium">
-                    <i class="fab fa-telegram"></i>
-                </span>
-                <span class="icon is-medium">
-                    <i class="fab fa-youtube"></i>
-                </span>
+                <a href="https://t.me/joinchat/AZSyoRvwhnQjS2NcR2MAjA" class="has-text-dark">
+                    <span class="icon is-medium">
+                        <i class="fab fa-telegram"></i>
+                    </span>
+                </a>
+                <a href="https://chat.whatsapp.com/KJFd5X9OeOe6J0vmTJMaOA" class="has-text-dark">
+                    <span class="icon is-medium">
+                        <i class="fab fa-whatsapp"></i>
+                    </span>
+                </a>
+                <a class="has-text-dark">
+                    <span class="icon is-medium">
+                        <i class="fab fa-facebook"></i>
+                    </span>
+                </a>
             </div>
         </div>
     </div>
