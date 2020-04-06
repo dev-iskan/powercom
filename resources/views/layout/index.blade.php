@@ -13,6 +13,18 @@
 @include('layout.header')
 @yield('body')
 @include('layout.footer')
+<div class="contacts">
+    <a href="https://t.me/joinchat/AZSyoRvwhnQjS2NcR2MAjA" class="button is-link is-rounded is-large contact">
+        <span class="icon is-large">
+            <i class="fab fa-telegram-plane"></i>
+        </span>
+    </a>
+    <a href="https://chat.whatsapp.com/KJFd5X9OeOe6J0vmTJMaOA" class="button is-success is-rounded is-large contact">
+        <span class="icon is-large">
+            <i class="fab fa-whatsapp"></i>
+        </span>
+    </a>
+</div>
 </body>
 <script>
     function toggleSidebar() {
@@ -20,6 +32,6 @@
         sidebar.classList.toggle('hidden');
     }
 </script>
-{{-- <script src="//code.jivosite.com/widget/KnjwLUQ9KJ" async></script> --}}
+<script src="//code.jivosite.com/widget/KnjwLUQ9KJ" async></script>
 @yield('script')
 </html>
