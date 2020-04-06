@@ -35,7 +35,7 @@ class ProductController extends Controller
         if ($request->query('categories')) {
             $category_ids = explode(';', $request->query('categories'));
             $productQuery->whereHas('categories', function ($query) use ($category_ids) {
-                $query->whereIn('categories.id', $category_ids);
+                $query->whereIn('categories.id', $category_ids)->orWhereIn('categories.parent_id', $category_ids);
             });
         }
 
