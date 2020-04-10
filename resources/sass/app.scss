@@ -34,12 +34,13 @@ $primary: #0064C3;
 .contacts {
   position: fixed;
   bottom: 0;
-  margin: 24px;
+  margin: 20px;
+  z-index: 10;
 }
 
 .contact {
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   box-shadow: 0 12px 14px 8px rgba(0,0,0,.17);
   // animation: pulse 2s infinite;

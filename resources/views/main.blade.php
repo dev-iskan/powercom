@@ -7,7 +7,7 @@
 @endsection
 
 @section('body')
-    <div class="swiper-container hero">
+    <div class="swiper-container hero" id="news">
         <div class="swiper-wrapper">
             @foreach($articles as $article)
                 <div class="swiper-slide has-text-centered">
@@ -24,7 +24,6 @@
                 </div>
             @endforeach
         </div>
-        <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
     </div>
     <section class="section">
@@ -108,6 +107,29 @@
         </div>
     </section>
     <section class="section">
+        <h3 class="is-size-4 has-text-weight-bold has-text-centered">ОФИЦИАЛЬНЫЙ ДИСТРИБЬЮТЕР И СЕРВИС ЦЕНТР В УЗБЕКИСТАНЕ</h3>
+        <br>
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <div class="swiper-container" id="brands">
+                        <div class="swiper-wrapper has-text-centered" style="align-items: baseline;">
+                            @foreach($brands as $brand)
+                                @if(count($brand->images) > 0)
+                                <div class="swiper-slide">
+                                    <a href="{{ route('products.index', ['brands' => $brand->id]) }}">
+                                        <img src="{{ $brand->images[0]->url }}" alt="{{ $brand->name }}" style="height: 60px;">
+                                    </a>
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
         <h3 class="is-size-4 has-text-weight-bold has-text-centered">НОВЫЕ ТОВАРЫ</h3>
         <br>
         <div class="container">
@@ -123,19 +145,6 @@
             </div>
         </div>
     </section>
-    {{-- <section class="section">
-        <h3 class="is-size-4 has-text-weight-bold has-text-centered">ПОПУЛЯРНЫЕ ТОВАРЫ</h3>
-        <br>
-        <div class="container">
-            <div class="columns is-multiline is-centered">
-                @foreach ($popular_products as $product)
-                    <div class="column is-one-third-tablet is-one-quarter-desktop">
-                        @include('components.card', ['product' => $product])
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section> --}}
     <hr>
     <section class="section pt-20">
         <div class="content">
@@ -175,13 +184,42 @@
     <script>
         window.onload = function () {
             var Swiper = window.Swiper;
-            var swiper = new Swiper('.swiper-container', {
+            var swiper = new Swiper('#news', {
                 pagination: {
                     el: '.swiper-pagination',
                 },
                 autoplay: {
                     delay: 5000,
                 },
+            });
+
+            var brands = document.querySelector("#brands > .swiper-wrapper");
+            
+            var Swiper = window.Swiper;
+            var swiper = new Swiper('#brands', {
+                slidesPerView: 1,
+                spaceBetween: 10,
+                autoplay: {
+                    delay: 3000,
+                },
+                breakpoints: {
+                    '@0.00': {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                    '@0.75': {
+                        slidesPerView: brands.childElementCount < 2 ? brands.childElementCount : 2,
+                        spaceBetween: 20,
+                    },
+                    '@1.00': {
+                        slidesPerView: brands.childElementCount < 3 ? brands.childElementCount : 3,
+                        spaceBetween: 40,
+                    },
+                    '@1.50': {
+                        slidesPerView: brands.childElementCount < 4 ? brands.childElementCount : 4,
+                        spaceBetween: 50,
+                    },
+                }
             });
         }
     </script>
