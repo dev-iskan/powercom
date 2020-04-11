@@ -35,7 +35,7 @@
                             @foreach ($categories as $category)
                                 <li>
                                     <label class="checkbox">
-                                        <input type="checkbox" class="category" onchange="search()" value="{{ $category->id }}">
+                                        <input type="checkbox" class="category" onchange="search({{ $category->id }})" value="{{ $category->id }}">
                                         {{ $category->name }}
                                     </label>
                                 </li>
@@ -152,7 +152,7 @@
         }
     }
 
-    function search() {
+    function search(id) {
         const brands = document.querySelectorAll('.brand');
         const categories = document.querySelectorAll('.category');
         const queryText = document.getElementById('query');
@@ -167,18 +167,27 @@
         });
 
         categories.forEach(element => {
-            if(element.checked) {
-                selectedCategories.push(element.value);
-            }
+            element.checked = element.value == id;
+            // if(element.checked) {
+            //     selectedCategories.push(element.value);
+            // }
         });
+        // categories.forEach(element => {
+        //     if(element.checked) {
+        //         selectedCategories.push(element.value);
+        //     }
+        // });
         
         let query = [];
         if (selectedBrands.length) {
             query.push('brands=' + selectedBrands.join(';'))
         }
-        if (selectedCategories.length) {
-            query.push('categories=' + selectedCategories.join(';'))
+        if (id) {
+            query.push('categories=' + id)
         }
+        // if (selectedCategories.length) {
+        //     query.push('categories=' + selectedCategories.join(';'))
+        // }
         if (queryText.value) {
             query.push('q=' + encodeURIComponent(queryText.value))
         }

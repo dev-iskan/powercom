@@ -40,9 +40,9 @@ class ProductController extends Controller
         }
 
         $sort = $request->query('sort');
-        if ($sort == 'priceAsc') {
+        // if ($sort == 'priceAsc') {
             $productQuery->orderBy('price');
-        }
+        // }
 
         if ($sort == 'priceDesc') {
             $productQuery->orderByDesc('price');
