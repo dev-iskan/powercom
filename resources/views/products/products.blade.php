@@ -167,27 +167,22 @@
         });
 
         categories.forEach(element => {
-            element.checked = element.value == id;
-            // if(element.checked) {
-            //     selectedCategories.push(element.value);
-            // }
+            if(element.checked) {
+                selectedCategories.push(element.value);
+            }
         });
-        // categories.forEach(element => {
-        //     if(element.checked) {
-        //         selectedCategories.push(element.value);
-        //     }
-        // });
         
         let query = [];
         if (selectedBrands.length) {
             query.push('brands=' + selectedBrands.join(';'))
         }
+
         if (id) {
             query.push('categories=' + id)
+        } else if (selectedCategories.length) {
+            query.push('categories=' + selectedCategories.join(';'))
         }
-        // if (selectedCategories.length) {
-        //     query.push('categories=' + selectedCategories.join(';'))
-        // }
+
         if (queryText.value) {
             query.push('q=' + encodeURIComponent(queryText.value))
         }
