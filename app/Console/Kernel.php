@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CancelOldOrdersCommand;
+use App\Console\Commands\RevokeTokensCommand;
+use App\Jobs\CreateAndSaveEskizToken;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +16,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CancelOldOrdersCommand::class,
+        RevokeTokensCommand::class
     ];
 
     /**
@@ -24,7 +28,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('credits:cancel')->weekly();
+        $schedule->command('clear:tokens')->weekly();
+        $schedule->command('credits:cancel')->daily();
+        $schedule->job(new CreateAndSaveEskizToken())->weekly();
     }
 
     /**
