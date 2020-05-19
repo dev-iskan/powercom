@@ -20,7 +20,7 @@
                                 @foreach ($brands as $brand)
                                 <li>
                                     <label class="checkbox">
-                                        <input type="checkbox" class="brand" onchange="search()" value="{{ $brand->id }}">
+                                        <input type="checkbox" class="brand" onchange="search('brand', {{ $brand->id }})" value="{{ $brand->id }}">
                                         {{ $brand->name }}
                                     </label>
                                 </li>
@@ -35,7 +35,7 @@
                             @foreach ($categories as $category)
                                 <li>
                                     <label class="checkbox">
-                                        <input type="checkbox" class="category" onchange="search({{ $category->id }})" value="{{ $category->id }}">
+                                        <input type="checkbox" class="category" onchange="search('category', {{ $category->id }})" value="{{ $category->id }}">
                                         {{ $category->name }}
                                     </label>
                                 </li>
@@ -49,7 +49,7 @@
                     </div>
                     @endif
                     <input class="input" id="query" type="text" placeholder="Введите ключевое слово">
-                    <button onclick="search()" class="button is-fullwidth is-primary mt-10">Найти</button>
+                    <button onclick="search('text')" class="button is-fullwidth is-primary mt-10">Найти</button>
                 </div>
                 <div class="column is-two-third">
                     <div class="is-size-5">
@@ -152,43 +152,18 @@
         }
     }
 
-    function search(id) {
+    function search(type, id) {
         const brands = document.querySelectorAll('.brand');
         const categories = document.querySelectorAll('.category');
         const queryText = document.getElementById('query');
-        
-        let selectedBrands = [];
-        let selectedCategories = [];
 
-        brands.forEach(element => {
-            if(element.checked) {
-                selectedBrands.push(element.value);
-            }
-        });
-
-        categories.forEach(element => {
-            if(element.checked) {
-                selectedCategories.push(element.value);
-            }
-        });
-        
-        let query = [];
-        if (selectedBrands.length) {
-            query.push('brands=' + selectedBrands.join(';'))
+        if (type === 'brand') {
+            window.location.replace('{!! route('products.index') !!}' + '?brands=' + id);
+        } else if (type === 'category') {
+            window.location.replace('{!! route('products.index') !!}' + '?categories=' + id);
+        } else if (type === 'text') {
+            window.location.replace('{!! route('products.index') !!}' + '?q=' + queryText.value);
         }
-
-        if (id) {
-            query.push('categories=' + id)
-        } else if (selectedCategories.length) {
-            query.push('categories=' + selectedCategories.join(';'))
-        }
-
-        if (queryText.value) {
-            query.push('q=' + encodeURIComponent(queryText.value))
-        }
-        query = query.join('&');
-
-        window.location.replace('{!! route('products.index') !!}' + '?' + query);
     }
 
     function remove(type, value) {
@@ -214,7 +189,37 @@
                 queryText.value = '';
                 break;
         }
-        search();
+
+        const brands = document.querySelectorAll('.brand');
+        const categories = document.querySelectorAll('.category');
+        const queryText = document.getElementById('query');
+        
+        let selectedBrands = [];
+        let selectedCategories = [];
+
+        brands.forEach(element => {
+            if(element.checked) {
+                selectedBrands.push(element.value);
+            }
+        });
+
+        categories.forEach(element => {
+            if(element.checked) {
+                selectedCategories.push(element.value);
+            }
+        });
+        
+        let query = [];
+        if (selectedBrands.length) {
+            query.push('brands=' + selectedBrands.join(';'))
+        }
+
+        if (queryText.value) {
+            query.push('q=' + encodeURIComponent(queryText.value))
+        }
+        query = query.join('&');
+
+        window.location.replace('{!! route('products.index') !!}' + '?' + query);   
     }
 
     setChecked();
