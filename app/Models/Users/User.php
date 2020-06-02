@@ -51,6 +51,7 @@ class User extends Authenticatable
         return $this->admin()->exists();
     }
 
+
     public function operator()
     {
         return $this->hasOne(Operator::class);
@@ -61,6 +62,7 @@ class User extends Authenticatable
         return $this->operator()->exists();
     }
 
+
     public function client()
     {
         return $this->hasOne(Client::class);
@@ -68,6 +70,6 @@ class User extends Authenticatable
 
     public function isClient()
     {
-        return $this->operator()->exists();
+        return $this->client()->exists();
     }
 }

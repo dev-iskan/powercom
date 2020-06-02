@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Access\AdminMiddleware;
+use App\Http\Middleware\Access\GeneralAccessMiddleware;
 use App\Http\Middleware\EnsurePhoneIsVerified;
 use App\Http\Middleware\PhoneAlreadyVerified;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -67,7 +69,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'phone_verified' => EnsurePhoneIsVerified::class,
-        'phone_already_verified' => PhoneAlreadyVerified::class
+        'phone_already_verified' => PhoneAlreadyVerified::class,
+        'is_admin' => AdminMiddleware::class,
+        'general' => GeneralAccessMiddleware::class
     ];
 
     /**

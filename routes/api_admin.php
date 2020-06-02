@@ -4,13 +4,13 @@ Route::namespace('Auth')
     ->prefix('auth')
     ->group(function () {
         Route::post('login', 'AuthController@login');
-        Route::post('logout', 'AuthController@logout')->middleware('auth:airlock');
-        Route::get('me', 'AuthController@me')->middleware('auth:airlock');
+        Route::post('logout', 'AuthController@logout')->middleware('auth:airlock', 'general');
+        Route::get('me', 'AuthController@me')->middleware('auth:airlock', 'general');
     });
 
 Route::namespace('Settings')
     ->prefix('settings')
-    ->middleware('auth:airlock')
+    ->middleware('auth:airlock', 'is_admin')
     ->group(function () {
         Route::post('get_and_save_token', 'SmsController@getAndSaveToken');
         Route::post('send_sms', 'SmsController@sendSms');
@@ -20,7 +20,7 @@ Route::namespace('Settings')
     });
 
 Route::namespace('Users')
-    ->middleware('auth:airlock')
+    ->middleware('auth:airlock', 'is_admin')
     ->group(function () {
         Route::apiResource('users', 'UserController');
         Route::post('users/{user}/toggle_admin', 'UserController@toggleAdmin');
@@ -28,13 +28,13 @@ Route::namespace('Users')
     });
 
 Route::namespace('Clients')
-    ->middleware('auth:airlock')
+    ->middleware('auth:airlock', 'general')
     ->group(function () {
         Route::apiResource('clients', 'ClientController')->except(['destroy']);
     });
 
 Route::namespace('Products')
-    ->middleware('auth:airlock')
+    ->middleware('auth:airlock', 'general')
     ->group(function () {
         Route::apiResource('categories', 'CategoryController');
         Route::apiResource('brands', 'BrandController');
@@ -44,15 +44,15 @@ Route::namespace('Products')
     });
 
 Route::namespace('Articles')
-    ->middleware('auth:airlock')
+    ->middleware('auth:airlock', 'general')
     ->group(function () {
         Route::apiResource('articles', 'ArticleController');
     });
 
-Route::get('app', 'AppController@index')->middleware('auth:airlock');
+Route::get('app', 'AppController@index')->middleware('auth:airlock', 'general');
 
 Route::namespace('Media')
-    ->middleware('auth:airlock')
+    ->middleware('auth:airlock', 'general')
     ->prefix('media')
     ->group(function () {
         Route::get('images/{imageable_type}/{imageable_id}', 'ImageController@index');
@@ -65,7 +65,7 @@ Route::namespace('Media')
     });
 
 Route::namespace('Orders')
-    ->middleware('auth:airlock')
+    ->middleware('auth:airlock', 'general')
     ->prefix('orders')
     ->group(function () {
         Route::apiResource('items', 'OrderItemController')->except(['show']);
